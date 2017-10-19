@@ -20,7 +20,7 @@
 		
 			<div class="row">
 				<div class="col-xs-6 com-md-3">
-					<img src="resource/image/logo.png" alt="...">				
+					<img src="source/image/logo.png" alt="...">				
 				</div>
 			</div>
 	
