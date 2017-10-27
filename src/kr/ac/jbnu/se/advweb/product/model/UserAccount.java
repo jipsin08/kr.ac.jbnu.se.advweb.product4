@@ -2,15 +2,18 @@ package kr.ac.jbnu.se.advweb.product.model;
 
 public class UserAccount {
 
-	public static final String GENDER_MALE = "M";
-	public static final String GENDER_FEMALE = "F";
-
 	private String userName;
-	private String gender;
 	private String password;
+	private boolean manager = false;
 
 	public UserAccount() {
 
+	}
+	
+	public UserAccount(String userName, String password, boolean manager) {
+		this.userName = userName;
+		this.manager = manager;
+		this.password = password;
 	}
 
 	public String getUserName() {
@@ -19,14 +22,6 @@ public class UserAccount {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
 	}
 
 	public String getPassword() {

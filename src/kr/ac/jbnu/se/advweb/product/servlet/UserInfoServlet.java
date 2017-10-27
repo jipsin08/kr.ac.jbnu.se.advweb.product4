@@ -37,7 +37,7 @@ public class UserInfoServlet extends HttpServlet {
 		// Not logged in
 		if (loginedUser == null) {
 			// Redirect to login page.
-			response.sendRedirect(request.getContextPath() + "/login");
+			response.sendRedirect(request.getContextPath() + "/login2");
 			return;
 		}
 		
