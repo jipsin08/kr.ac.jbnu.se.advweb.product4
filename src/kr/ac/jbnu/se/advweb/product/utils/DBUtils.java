@@ -36,8 +36,8 @@ public class DBUtils {
 
 	public static UserAccount findUser(Connection conn, String userName) throws SQLException {
 
-		String sql = "Select a.User_Name, a.Password, a.Gender from User_Account a "//
-				+ " where a.User_Name = ? ";
+		String sql = "Select a.id, a.pw from user a "//
+				+ " where a.id = ? ";
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
 		pstm.setString(1, userName);
@@ -46,11 +46,9 @@ public class DBUtils {
 
 		if (rs.next()) {
 			String password = rs.getString("Password");
-			String gender = rs.getString("Gender");
 			UserAccount user = new UserAccount();
 			user.setUserName(userName);
 			user.setPassword(password);
-			user.setGender(gender);
 			return user;
 		}
 		return null;
