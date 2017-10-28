@@ -7,16 +7,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.ac.jbnu.se.advweb.product.model.UserManageInfo;
 import kr.ac.jbnu.se.advweb.product.model.Product;
 import kr.ac.jbnu.se.advweb.product.model.UserAccount;
+import kr.ac.jbnu.se.advweb.product.model.UserSearch;
 
 public class DBUtils {
 
 	public static UserAccount findUser(Connection conn, //
 			String userName, String password) throws SQLException {
 
-		String sql = "Select a.User_Name, a.Password, a.Gender from User_Account a " //
-				+ " where a.User_Name = ? and a.password= ?";
+		String sql = "Select a.id, a.pw from user a " //
+				+ " where a.id= ? and a.pw= ?";
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
 		pstm.setString(1, userName);
@@ -24,11 +26,9 @@ public class DBUtils {
 		ResultSet rs = pstm.executeQuery();
 
 		if (rs.next()) {
-			String gender = rs.getString("Gender");
 			UserAccount user = new UserAccount();
 			user.setUserName(userName);
 			user.setPassword(password);
-			user.setGender(gender);
 			return user;
 		}
 		return null;
@@ -124,6 +124,81 @@ public class DBUtils {
 		pstm.setString(1, code);
 
 		pstm.executeUpdate();
+	}
+
+	public static List userSearch(Connection conn, String userId) throws SQLException {
+		String sql = "select * from user where id like'%" + userId + "%'";
+
+	 String a = "select * from user where id='"+userId+"'";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		ResultSet rs = pstm.executeQuery();
+		List<UserSearch> list = new ArrayList<UserSearch>();
+
+		while (rs.next()) {
+			String id = rs.getString("id");
+			String imageUrl = rs.getString("imageurl");
+
+			UserSearch userSearch = new UserSearch(id, imageUrl);
+
+			list.add(userSearch);
+
+		}
+		return list;
+	}
+
+	public static List getReportedUser(Connection conn) throws SQLException {
+
+		String sql = "select * from user where black_check='1'";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		ResultSet rs = pstm.executeQuery();
+		List<UserManageInfo> list = new ArrayList<UserManageInfo>();
+
+		while (rs.next()) {
+
+			String id = rs.getString("id");
+			String imageUrl = rs.getString("imageUrl");
+			int flag = rs.getInt("black_check");
+			UserManageInfo blockedUser = new UserManageInfo(id, imageUrl,flag);
+
+			list.add(blockedUser);
+
+		}
+		return list;
+	}
+
+	public static List getBlockeduser(Connection conn) throws SQLException {
+
+		String sql = "select * from user where black_check='2'";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		ResultSet rs = pstm.executeQuery();
+		List<UserManageInfo> list = new ArrayList<UserManageInfo>();
+
+		while (rs.next()) {
+
+			String id = rs.getString("id");
+			String imageUrl = rs.getString("imageUrl");
+			int flag = rs.getInt("black_check");
+			UserManageInfo blockedUser = new UserManageInfo(id, imageUrl,flag);
+
+			list.add(blockedUser);
+
+		}
+		return list;
+	}
+
+	public static void userBlockedConfirm(Connection conn, String userId) throws SQLException {
+
+		String sql = "update user set black_check=2 where id='" + userId+"'";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		pstm.executeUpdate();
+
 	}
 
 }
