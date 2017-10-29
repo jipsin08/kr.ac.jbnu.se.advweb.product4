@@ -49,9 +49,6 @@ public class IdCheckServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 			
-		
-		
-		
 			if(result == false) {
 			response.getWriter().write("false");
 		}

@@ -93,8 +93,15 @@
    <script>
    $(document).ready(function(){
 	   
+	   
    $('#idChkBtn').click(function(){
-	   var getId = $('#id').val();
+	   
+	   if($('#id').val().length == 0){
+		   alert('아이디를 입력해주세요.');
+	   }
+	   else{
+	   
+		   var getId = $('#id').val();
 	   
        $.ajax({
            type:'GET',
@@ -111,7 +118,7 @@
        
       					 
        }); 
-	   
+	   }
    });
   
    

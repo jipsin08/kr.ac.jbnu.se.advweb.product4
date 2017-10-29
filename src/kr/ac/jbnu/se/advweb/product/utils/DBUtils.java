@@ -24,10 +24,11 @@ public class DBUtils {
 		ResultSet rs = pstm.executeQuery();
 
 		if (rs.next()) {
-			String gender = rs.getString("Gender");
+		
 			UserAccount user = new UserAccount();
 			user.setUserName(userName);
 			user.setPassword(password);
+		
 			return user;
 		}
 		return null;
@@ -49,6 +50,7 @@ public class DBUtils {
 			UserAccount user = new UserAccount();
 			user.setUserName(userName);
 			user.setPassword(password);
+		
 			return user;
 		}
 		return null;
