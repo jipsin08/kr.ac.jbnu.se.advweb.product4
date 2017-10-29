@@ -28,7 +28,6 @@ public class DBUtils {
 			UserAccount user = new UserAccount();
 			user.setUserName(userName);
 			user.setPassword(password);
-			user.setGender(gender);
 			return user;
 		}
 		return null;
@@ -50,7 +49,6 @@ public class DBUtils {
 			UserAccount user = new UserAccount();
 			user.setUserName(userName);
 			user.setPassword(password);
-			user.setGender(gender);
 			return user;
 		}
 		return null;
@@ -125,5 +123,31 @@ public class DBUtils {
 
 		pstm.executeUpdate();
 	}
+	
 
+	public static boolean idCheck(Connection conn,String id) throws SQLException {
+	
+		String sql = "select * from user where id='"+id+"'";
+		
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+		
+		rs.last();      
+		int size = rs.getRow();
+		rs.beforeFirst();
+
+		if (size > 0) 
+			return false;
+		else 
+			return true;
+	}
+
+	public static void updateImage(Connection conn,String image,String id) throws SQLException {
+		String sql = "Update user set image= '"+image+"' where id='"+id+"'";
+		
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		
+		pstm.executeUpdate();
+		
+	}
 }
