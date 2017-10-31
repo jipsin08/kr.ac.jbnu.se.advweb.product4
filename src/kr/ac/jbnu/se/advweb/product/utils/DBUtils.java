@@ -144,12 +144,23 @@ public class DBUtils {
 			return true;
 	}
 
-	public static void updateImage(Connection conn,String image,String id) throws SQLException {
-		String sql = "Update user set image= '"+image+"' where id='"+id+"'";
+	public static void insertForm(Connection conn, String id, String pw, String imageurl,
+			String email,String name) throws SQLException {
+		
+		String sql = "Insert into user (id,pw,imageurl,email,name) values(?,?,?,?,?)";
 		
 		PreparedStatement pstm = conn.prepareStatement(sql);
 		
+		pstm.setString(1, id);
+		pstm.setString(2, pw);
+		pstm.setString(3, imageurl);
+		pstm.setString(4, email);
+		pstm.setString(5, name);
+
+		
 		pstm.executeUpdate();
+	
+		
 		
 	}
 }

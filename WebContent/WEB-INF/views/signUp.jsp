@@ -18,17 +18,17 @@
         <div class="page-header">
     	    <h1>회원가입</h1>
         </div>
-        <form class="form-horizontal" method="POST" action="signup" enctype="multipart/form-data" >
+        <form class="form-horizontal" method="POST" action="upload" enctype="multipart/form-data" >
         <div class="form-group">
             <label class="col-sm-3 control-label" for="name">이름</label>
           <div class="col-sm-6">
-            <input class="form-control" id="name" type="text" placeholder="이름">
+            <input class="form-control" id="name" type="text" name="upname" placeholder="이름">
           </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label" for="id">아이디</label>
           <div class="col-sm-6">
-            <input class="form-control" id="id" type="text" placeholder="아이디">
+            <input class="form-control" id="id" type="text" name="upid" placeholder="아이디">
           </div>
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" id=idChkBtn>중복 확인<i class="fa fa-mail-forward spaceLeft"></i></button>
@@ -40,7 +40,7 @@
         <div class="form-group">
           <label class="col-sm-3 control-label" for="password">비밀번호</label>
         <div class="col-sm-6">
-          <input class="form-control" id="password" type="password"  placeholder="비밀번호">
+          <input class="form-control" id="password" type="password" name="uppassword" placeholder="비밀번호">
         <p class="help-block">숫자, 특수문자 포함 8자 이상</p>
         </div>
         </div>
@@ -66,7 +66,7 @@
         <div class="form-group">
           <label class="col-sm-3 control-label" for="email">이메일</label>
         <div class="col-sm-6">
-          <input class="form-control" id="email" type="email" placeholder="이메일">
+          <input class="form-control" id="email" type="email" name="upemail" placeholder="이메일">
         </div>
         </div>
      
@@ -93,21 +93,16 @@
    <script>
    $(document).ready(function(){
 	   
-	   
    $('#idChkBtn').click(function(){
-	   
 	   if($('#id').val().length == 0){
 		   alert('아이디를 입력해주세요.');
 	   }
 	   else{
-	   
 		   var getId = $('#id').val();
-	   
        $.ajax({
            type:'GET',
            url: 'idcheck?id='+getId,
            success: function(data){
-        	 
             	   if(data ==="false"){
                    alert('이미 존재하는 아이디 입니다.');
                }
@@ -115,8 +110,6 @@
              	  alert(getId+'는 사용가능한 아이디 입니다.');
                }
            }		
-       
-      					 
        }); 
 	   }
    });
