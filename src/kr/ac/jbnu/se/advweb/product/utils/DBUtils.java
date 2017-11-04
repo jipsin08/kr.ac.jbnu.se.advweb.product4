@@ -9,12 +9,31 @@ import java.util.List;
 
 import kr.ac.jbnu.se.advweb.product.model.UserManageInfo;
 import kr.ac.jbnu.se.advweb.product.model.Product;
+import kr.ac.jbnu.se.advweb.product.model.Reply;
 import kr.ac.jbnu.se.advweb.product.model.UserAccount;
 import kr.ac.jbnu.se.advweb.product.model.UserSearch;
 import kr.ac.jbnu.se.advweb.product.model.notificationInfo;
 
 public class DBUtils {
 
+	public static List<Reply> findReply(Connection conn, String contentID) throws SQLException{
+		String sql = "select reply from reply where content_id= ?";
+	
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, contentID);
+		ResultSet rs = pstm.executeQuery();
+		List<Reply> list = new ArrayList<Reply>();
+		
+		while(rs.next()) {
+			Reply reply = new Reply();
+			String replies = rs.getString("reply");
+			reply.setReply(replies);
+			list.add(reply);
+		}
+		
+		return list;
+	}
+	
 	public static UserAccount findUser(Connection conn, String id, String password) throws SQLException {
 
 		// String sql = "Select a.id, a.pw from user a where a.id= ? and a.pw=
