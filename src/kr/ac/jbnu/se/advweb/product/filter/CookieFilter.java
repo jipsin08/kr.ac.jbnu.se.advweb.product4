@@ -40,12 +40,15 @@ public class CookieFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+
+		System.out.println("COOKIE Filter");
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession session = req.getSession();
 
 		UserAccount userInSession = MyUtils.getLoginedUser(session);
-		//
+
 		if (userInSession != null) {
+			System.out.println(userInSession.getId() + "님이 쿠키값에 있습니다.");
 			session.setAttribute("COOKIE_CHECKED", "CHECKED");
 			chain.doFilter(request, response);
 			return;
