@@ -1,6 +1,5 @@
 eclipse.preferences.version=1
 encoding//WebContent/WEB-INF/views/_gallery.jsp=UTF-8
-encoding//WebContent/WEB-INF/views/_privateGallery.jsp=UTF-8
 encoding//WebContent/WEB-INF/views/notificationView.jsp=UTF-8
 encoding//WebContent/WEB-INF/views/userManageView.jsp=UTF-8
 encoding//src/kr/ac/jbnu/se/advweb/product/model/Product.java=UTF-8

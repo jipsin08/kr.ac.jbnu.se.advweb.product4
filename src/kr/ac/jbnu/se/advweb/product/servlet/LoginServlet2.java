@@ -19,7 +19,7 @@ import kr.ac.jbnu.se.advweb.product.utils.MyUtils;
 @WebServlet(urlPatterns = { "/login2" })
 
 public class LoginServlet2 extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
 	public LoginServlet2() {
 		super();
@@ -50,7 +50,7 @@ public class LoginServlet2 extends HttpServlet {
 
 		if (id == null || password == null || id.length() == 0 || password.length() == 0) {
 			hasError = true;
-			errorString = "아이디와 비밀번호를 확인하세요";
+         errorString = "���̵�� ��й�ȣ�� Ȯ���ϼ���";
 		} else {
 
 			Connection conn = MyUtils.getStoredConnection(request);
@@ -61,7 +61,7 @@ public class LoginServlet2 extends HttpServlet {
 				if (user == null) {
 
 					hasError = true;
-					errorString = "없는 아이디 또는 비밀번호 입니다.";
+               errorString = "���� ���̵� �Ǵ� ��й�ȣ �Դϴ�.";
 					if (isManager) {
 						hasError = false;
 					}

@@ -24,7 +24,7 @@
 				</div>
 				<div class="col-sm-4">
 					<div class="card">
-						<span style="font: bold 1.5em/1em; color: black;"> URL_ex </span>
+						<span style="font-weight: bold; color: black;"> URL_ex </span>
 						<img alt="Responsive image"
 							src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p160x160/16830719_997583997040323_2984424931716727767_n.jpg?oh=b34872f25dfa3d2f123becc64eaae59b&oe=5AA2B350"
 							style="height: 280px; width: auto;" class="img-thumbnail">
@@ -33,7 +33,7 @@
 				</div>
 				<div class="col-sm-4">
 					<div class="card">
-						<span style="font: bold 1.5em/1em; color: black;"> Video_ex
+						<span style="font-weight: bold; color: black;"> Video_ex
 						</span>
 						<video controls height="280" src="video/bandicam.mp4" width="auto"
 							controls="controls"></video>
@@ -46,7 +46,7 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<div class="card">
-						<span style="font: bold 1.5em/1em; color: black;">
+						<span style="font-weight: bold; color: black;">
 							Mango_img </span> <img alt="Responsive image" src="image/mango.jpg"
 							style="height: 280px; width: auto;" class="img-thumbnail">
 					</div>
@@ -54,7 +54,7 @@
 				</div>
 				<div class="col-sm-4">
 					<div class="card">
-						<span style="font: bold 1.5em/1em; color: black;">
+						<span style="font-weight: bold; color: black;">
 							Orange_img </span> <img alt="Responsive image" src="image/orange.jpg"
 							style="height: 280px; width: auto;" class="img-thumbnail">
 
@@ -63,7 +63,7 @@
 				</div>
 				<div class="col-sm-4">
 					<div class="card">
-						<span style="font: bold 1.5em/1em; color: black;">
+						<span style="font-weight: bold; color: black;">
 							Peach_img </span> <img alt="Responsive image" src="image/peach.jpg"
 							style="height: 280px; width: auto;" class="img-thumbnail">
 					</div>
@@ -74,7 +74,7 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<div class="card">
-						<span style="font: bold 1.5em/1em; color: black;"> Pear_img
+						<span style="font-weight: bold; color: black;"> Pear_img
 						</span> <img alt="Responsive image" src="image/pear.jpg"
 							style="height: 280px; width: auto;" class="img-thumbnail">
 					</div>
@@ -83,7 +83,7 @@
 
 				<div class="col-sm-4">
 					<div class="card">
-						<span style="font: bold 1.5em/1em; color: black;"> Kiwi_img
+						<span style="font-weight: bold; color: black;"> Kiwi_img
 						</span> <img alt="Responsive image" src="image/kiwi.jpg"
 							style="height: 280px; width: auto;" class="img-thumbnail">
 					</div>

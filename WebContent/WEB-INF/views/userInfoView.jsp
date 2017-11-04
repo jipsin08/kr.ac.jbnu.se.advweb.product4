@@ -22,6 +22,15 @@
 	<jsp:include page="_header.jsp"></jsp:include>
 
 
+	<section class="jumbotron text-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4">
+					<img alt="Responsive image" src="image/mango.jpg"
+						class="img-thumbnail">
+				</div>
+				<div class="col-sm-8">
+
 
 	<section class="jumbotron text-center">
 		<div class="container">
