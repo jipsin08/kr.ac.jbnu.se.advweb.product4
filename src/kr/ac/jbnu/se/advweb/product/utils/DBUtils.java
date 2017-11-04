@@ -163,4 +163,15 @@ public class DBUtils {
 		
 	}
 	
+	public static void UpdateUserInfo(Connection conn, String id, String pw, String imageurl,
+			String email,String name) throws SQLException {
+		
+		String sql = "Update user set pw =?, imageurl=? ,email=?, name =? where id='"+id+"'";
+		
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		
+		pstm.executeUpdate();
+	
+		
+	}
 }

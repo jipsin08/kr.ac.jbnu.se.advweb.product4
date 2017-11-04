@@ -80,7 +80,6 @@ public class UploadServlet extends HttpServlet {
 		}
 		
 		String flag = multi.getParameter("flag");
-		System.out.println(flag);
 		
 		Connection conn = MyUtils.getStoredConnection(request);
 		

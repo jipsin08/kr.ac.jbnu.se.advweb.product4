@@ -55,7 +55,6 @@ public class IdCheckServlet extends HttpServlet {
 			else {
 			response.getWriter().write("true");
 		}
-		
 	}
 
 	/**
