@@ -32,6 +32,8 @@ public class DBUtils {
 
 			user.setid(id);
 			user.setPassword(password);
+
+
 			user.setImageUrl(rs.getString("imageUrl"));
 			user.setEmail(rs.getString("email"));
 			user.setName(rs.getString("name"));
@@ -57,6 +59,7 @@ public class DBUtils {
 			UserAccount user = new UserAccount();
 			user.setid(id);
 			user.setPassword(password);
+
 			return user;
 		}
 		return null;
@@ -130,6 +133,56 @@ public class DBUtils {
 		pstm.setString(1, code);
 
 		pstm.executeUpdate();
+	}
+	
+
+	public static boolean idCheck(Connection conn,String id) throws SQLException {
+	
+		String sql = "select * from user where id='"+id+"'";
+		
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+		
+		rs.last();      
+		int size = rs.getRow();
+		rs.beforeFirst();
+
+		if (size > 0) 
+			return false;
+		else 
+			return true;
+	}
+
+
+	public static void insertForm(Connection conn, String id, String pw, String imageurl,
+			String email,String name) throws SQLException {
+		
+		String sql = "Insert into user (id,pw,imageurl,email,name) values(?,?,?,?,?)";
+		
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		
+		pstm.setString(1, id);
+		pstm.setString(2, pw);
+		pstm.setString(3, imageurl);
+		pstm.setString(4, email);
+		pstm.setString(5, name);
+
+		
+		pstm.executeUpdate();
+	
+		
+	}
+	
+	public static void UpdateUserInfo(Connection conn, String id, String pw, String imageurl,
+			String email,String name) throws SQLException {
+		
+		String sql = "Update user set pw =?, imageurl=? ,email=?, name =? where id='"+id+"'";
+		
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		
+		pstm.executeUpdate();
+	
+		
 	}
 
 	public static List userSearch(Connection conn, String userId) throws SQLException {
@@ -279,5 +332,6 @@ public class DBUtils {
 		pstm.setString(2, receiver);
 		pstm.executeUpdate();
 	}
+
 
 }
