@@ -1,6 +1,9 @@
 package kr.ac.jbnu.se.advweb.product.servlet;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,9 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.ac.jbnu.se.advweb.product.model.Content;
 import kr.ac.jbnu.se.advweb.product.model.UserAccount;
+import kr.ac.jbnu.se.advweb.product.utils.DBUtils;
 import kr.ac.jbnu.se.advweb.product.utils.MyUtils;
-
 
 @WebServlet(urlPatterns = { "/userInfo" })
 public class UserInfoServlet extends HttpServlet {
@@ -23,12 +27,20 @@ public class UserInfoServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		Connection conn = MyUtils.getStoredConnection(request);
+
+		List<Content> list = null;
+		try {
+			list = DBUtils.queryContent(conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("content", list);
+
 		String moreInfo = request.getParameter("more");
-		
-		
+
 		HttpSession session = request.getSession();
 
 		// Check User has logged on
@@ -40,27 +52,24 @@ public class UserInfoServlet extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/login2");
 			return;
 		}
-		
+
 		// Store info to the request attribute before forwarding.
 		request.setAttribute("user", loginedUser);
 
-		if( moreInfo == null)
-		{
+		if (moreInfo == null) {
 			// If the user has logged in, then forward to the page
 			// /WEB-INF/views/userInfoView.jsp
-			RequestDispatcher dispatcher  = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
+			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
 			dispatcher.forward(request, response);
-		}
-		else
-		{
-			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/additionalUserInfoView.jsp");
+		} else {
+			RequestDispatcher dispatcher = this.getServletContext()
+					.getRequestDispatcher("/WEB-INF/views/additionalUserInfoView.jsp");
 			dispatcher.forward(request, response);
 		}
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 

@@ -7,11 +7,41 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.ac.jbnu.se.advweb.product.model.Content;
 import kr.ac.jbnu.se.advweb.product.model.Product;
 import kr.ac.jbnu.se.advweb.product.model.UserAccount;
 
 public class DBUtils {
 
+	public static List<Content> queryContent(Connection conn) throws SQLException{
+		String sql = "Select * From content";
+		List<Content> list = new ArrayList<Content>();
+		
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+		
+		while(rs.next()) {
+			Content contents = new Content();
+			int content_id = rs.getInt("content_id");
+			String user_id = rs.getString("user_id");
+			String content = rs.getString("content");
+			int likes = rs.getInt("likes");
+			String category = rs.getString("category");
+			String path = rs.getString("path");
+			
+			contents.setContent_id(content_id);
+			contents.setUser_id(user_id);
+			contents.setContent(content);
+			contents.setlikes(likes);
+			contents.setCategory(category);
+			contents.setPath(path);
+			
+			list.add(contents);
+		}
+		
+		return list;
+	}
+	
 	public static UserAccount findUser(Connection conn, //
 			String userName, String password) throws SQLException {
 
@@ -118,6 +148,20 @@ public class DBUtils {
 		PreparedStatement pstm = conn.prepareStatement(sql);
 
 		pstm.setString(1, code);
+
+		pstm.executeUpdate();
+	}
+	
+	public static void insertContent(Connection conn,  String userId, String content, String category, String path) throws SQLException {
+		String sql = "Insert into content (user_id,content,category, path) values (?,?,?,?)";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		pstm.setString(1, userId);
+		pstm.setString(2, content);
+		pstm.setString(3, category);
+		pstm.setString(4, path);
+		
 
 		pstm.executeUpdate();
 	}

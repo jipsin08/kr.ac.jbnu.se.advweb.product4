@@ -1,33 +1,6 @@
 package kr.ac.jbnu.se.advweb.product.servlet;
 
 import java.io.IOException;
-<<<<<<< HEAD
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-@WebServlet("/login2")
-public class LoginServlet2 extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public LoginServlet2() {
-        super();
-    }
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher 
-				= this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView2.jsp");
-		dispatcher.forward(request, response);
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-=======
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -69,7 +42,7 @@ public class LoginServlet2 extends HttpServlet {
 
 		if (userName == null || password == null || userName.length() == 0 || password.length() == 0) {
 			hasError = true;
-			errorString = "아이디와 비밀번호를 확인하세요";
+			errorString = "�븘�씠�뵒�� 鍮꾨�踰덊샇瑜� �솗�씤�븯�꽭�슂";
 		} else {
 			Connection conn = MyUtils.getStoredConnection(request);
 			try {
@@ -78,7 +51,7 @@ public class LoginServlet2 extends HttpServlet {
 
 				if (user == null) {
 					hasError = true;
-					errorString = "없는 아이디 또는 비밀번호 입니다.";
+					errorString = "�뾾�뒗 �븘�씠�뵒 �삉�뒗 鍮꾨�踰덊샇 �엯�땲�떎.";
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -121,7 +94,7 @@ public class LoginServlet2 extends HttpServlet {
 			// Redirect to userInfo page.
 			response.sendRedirect(request.getContextPath() + "/userInfo");
 		}
->>>>>>> refs/remotes/origin/develop_mj
+
 	}
 
 }

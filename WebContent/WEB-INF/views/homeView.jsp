@@ -16,7 +16,10 @@
 <body>
 	<jsp:include page="_header.jsp"></jsp:include>
 	<jsp:include page="_menu.jsp"></jsp:include>
-	<jsp:include page="_gallery.jsp"></jsp:include>
+	<jsp:include page="_gallery.jsp">
+		<jsp:param name="content" value="${content}"/>
+	</jsp:include>
+
 	
 	<jsp:include page="_footer.jsp"></jsp:include>
 
