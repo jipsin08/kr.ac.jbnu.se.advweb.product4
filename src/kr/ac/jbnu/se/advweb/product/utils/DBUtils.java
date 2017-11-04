@@ -7,16 +7,45 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import kr.ac.jbnu.se.advweb.product.model.UserManageInfo;
+import kr.ac.jbnu.se.advweb.product.model.Content;
 import kr.ac.jbnu.se.advweb.product.model.Product;
 import kr.ac.jbnu.se.advweb.product.model.UserAccount;
+import kr.ac.jbnu.se.advweb.product.model.UserManageInfo;
 import kr.ac.jbnu.se.advweb.product.model.UserSearch;
 import kr.ac.jbnu.se.advweb.product.model.notificationInfo;
 
 public class DBUtils {
 
-	public static UserAccount findUser(Connection conn, String id, String password) throws SQLException {
+	public static List<Content> queryContent(Connection conn) throws SQLException {
+		String sql = "Select * From content";
+		List<Content> list = new ArrayList<Content>();
 
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+
+		while (rs.next()) {
+			Content contents = new Content();
+			int content_id = rs.getInt("content_id");
+			String user_id = rs.getString("user_id");
+			String content = rs.getString("content");
+			int likes = rs.getInt("likes");
+			String category = rs.getString("category");
+			String path = rs.getString("path");
+
+			contents.setContent_id(content_id);
+			contents.setUser_id(user_id);
+			contents.setContent(content);
+			contents.setlikes(likes);
+			contents.setCategory(category);
+			contents.setPath(path);
+
+			list.add(contents);
+		}
+
+		return list;
+	}
+
+	public static UserAccount findUser(Connection conn, String id, String password) throws SQLException {
 		// String sql = "Select a.id, a.pw from user a where a.id= ? and a.pw=
 		// ?";
 		String sql = "select * from user where id=? and pw=?";
@@ -32,7 +61,6 @@ public class DBUtils {
 
 			user.setId(id);
 			user.setPassword(password);
-
 
 			user.setImageUrl(rs.getString("imageUrl"));
 			user.setEmail(rs.getString("email"));
@@ -134,55 +162,50 @@ public class DBUtils {
 
 		pstm.executeUpdate();
 	}
-	
 
-	public static boolean idCheck(Connection conn,String id) throws SQLException {
-	
-		String sql = "select * from user where id='"+id+"'";
-		
+	public static boolean idCheck(Connection conn, String id) throws SQLException {
+
+		String sql = "select * from user where id='" + id + "'";
+
 		PreparedStatement pstm = conn.prepareStatement(sql);
 		ResultSet rs = pstm.executeQuery();
-		
-		rs.last();      
+
+		rs.last();
 		int size = rs.getRow();
 		rs.beforeFirst();
 
-		if (size > 0) 
+		if (size > 0)
 			return false;
-		else 
+		else
 			return true;
 	}
 
+	public static void insertForm(Connection conn, String id, String pw, String imageurl, String email, String name)
+			throws SQLException {
 
-	public static void insertForm(Connection conn, String id, String pw, String imageurl,
-			String email,String name) throws SQLException {
-		
 		String sql = "Insert into user (id,pw,imageurl,email,name) values(?,?,?,?,?)";
-		
+
 		PreparedStatement pstm = conn.prepareStatement(sql);
-		
+
 		pstm.setString(1, id);
 		pstm.setString(2, pw);
 		pstm.setString(3, imageurl);
 		pstm.setString(4, email);
 		pstm.setString(5, name);
 
-		
 		pstm.executeUpdate();
-	
-		
+
 	}
-	
-	public static void UpdateUserInfo(Connection conn, String id, String pw, String imageurl,
-			String email,String name) throws SQLException {
-		
-		String sql = "Update user set pw =?, imageurl=? ,email=?, name =? where id='"+id+"'";
-		
+
+	public static void UpdateUserInfo(Connection conn, String id, String pw, String imageurl, String email, String name)
+			throws SQLException {
+
+		String sql = "Update user set pw =?, imageurl=? ,email=?, name =? where id='" + id + "'";
+
 		PreparedStatement pstm = conn.prepareStatement(sql);
-		
+
 		pstm.executeUpdate();
-	
-		
+
 	}
 
 	public static List userSearch(Connection conn, String userId) throws SQLException {
@@ -333,5 +356,17 @@ public class DBUtils {
 		pstm.executeUpdate();
 	}
 
+	public static void insertContent(Connection conn, String userId, String content, String category, String path)
+			throws SQLException {
+		String sql = "Insert into content (user_id,content,category, path) values (?,?,?,?)";
 
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		pstm.setString(1, userId);
+		pstm.setString(2, content);
+		pstm.setString(3, category);
+		pstm.setString(4, path);
+
+		pstm.executeUpdate();
+	}
 }

@@ -3,6 +3,7 @@ package kr.ac.jbnu.se.advweb.product.servlet;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.ac.jbnu.se.advweb.product.model.Content;
 import kr.ac.jbnu.se.advweb.product.model.UserAccount;
 import kr.ac.jbnu.se.advweb.product.model.notificationInfo;
 import kr.ac.jbnu.se.advweb.product.utils.DBUtils;
@@ -26,20 +28,29 @@ public class UserInfoServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = MyUtils.getStoredConnection(request);
+
+		List<Content> list = null;
+		try {
+			list = DBUtils.queryContent(conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("content", list);
+
+		String moreInfo = request.getParameter("more");
+
 		HttpSession session = request.getSession();
-		String pageUserId = request.getParameter("receiver"); // ë‚´ê°€ ê²€ìƒ‰í•œ ì•„ì´ë””(ìƒëŒ€ë°©
-																// ì•„ì´ë””)
+		String pageUserId = request.getParameter("receiver"); // ?‚´ê°? ê²??ƒ‰?•œ ?•„?´?””(?ƒ??ë°?
+		// ?•„?´?””)
 		notificationInfo notificationInfo = null;
 
 		// Check User has logged on
 		UserAccount loginedUser = MyUtils.getLoginedUser(session);
 		try {
 			notificationInfo = DBUtils.friendRequestCheck(conn, request.getParameter("sender"),
-					request.getParameter("receiver")); // ë‘˜ì˜ ì¹œêµ¬ìƒíƒœ ì—¬ë¶€ë¥¼ í™•ì¸í•˜ê¸° ìœ„í•¨
+					request.getParameter("receiver")); // ?‘˜?˜ ì¹œêµ¬?ƒ?ƒœ ?—¬ë¶?ë¥? ?™•?¸?•˜ê¸? ?œ„?•¨
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,11 +73,19 @@ public class UserInfoServlet extends HttpServlet {
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
 		dispatcher.forward(request, response);
 
+		if (moreInfo == null) {
+			// If the user has logged in, then forward to the page
+			// /WEB-INF/views/userInfoView.jsp
+			dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
+			dispatcher.forward(request, response);
+		} else {
+			dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/additionalUserInfoView.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 
