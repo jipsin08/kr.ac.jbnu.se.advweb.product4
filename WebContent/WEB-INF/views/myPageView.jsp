@@ -36,7 +36,7 @@
       <div class="container">
          <div class="row">
             <div class="col-sm-4">
-               <img alt="Responsive image" src="images/signin.png"
+               <img alt="Responsive image" src="image/signin.png"
                   class="img-thumbnail">
             </div>
             <div class="col-sm-8">

@@ -81,7 +81,7 @@ public class LoginServlet2 extends HttpServlet {
 
 			
 			user = new UserAccount();
-			user.setid(id);
+			user.setId(id);
 			user.setPassword(password);
 
 			// Store information in request attribute, before forward.

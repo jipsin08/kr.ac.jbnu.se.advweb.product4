@@ -51,7 +51,7 @@
 
 <script>
 	$(document).ready(function() {
-		$.get("${pageContext.request.contextPath}/userReport", {
+		$.get("${pageContext.request.contextPath}/userReportList", {
 
 		}, function(data) {
 

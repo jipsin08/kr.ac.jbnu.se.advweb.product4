@@ -18,14 +18,14 @@
 	<div style="width: 80%; margin: 0 auto;">
 		<c:forEach items="${User}" var="user">
 			<div style="float: left; width: 80%">
-				<img src="images/instalogo.png"
+				<img src="image/instalogo.png"
 					style="width: 40px; height: 40px; vertical-align: middle; margin-right: 10%; margin-left: 30%; margin-bottom: 2%; margin-top: 2%;">${user.id}
-				${user.imageUrl}
+				
 
 				<c:if test="${user.flag == 1}">
 					<a
 						href="${pageContext.request.contextPath}/userBlockConfirm?userId=${user.id}"><img
-						src="images/userblock.png"
+						src="image/userblock.png"
 						style="width: 40px; height: 40px; margin-bottom: 2%; margin-top: 2%;"></a>
 				</c:if>
 

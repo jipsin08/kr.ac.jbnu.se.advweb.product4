@@ -21,7 +21,7 @@
 
 			<div class="col-md-2">
 				<a href="${pageContext.request.contextPath}/home"> <img
-					src="images/instalogo.png"
+					src="image/instalogo.png"
 					style="width: 40px; height: 40px; margin-left: auto; margin-right: auto; display: block;"></a>
 			</div>
 
@@ -49,14 +49,14 @@
 					<c:when test="${not empty loginedManager}">
 
 						<a href="${pageContext.request.contextPath}/userManage"> <span
-							style="margin: 0 10px;"> <img src="images/userManage.png"
+							style="margin: 0 10px;"> <img src="image/userManage.png"
 								style="width: 25px; height: 25px; margin-top: 4px">
 						</span></a>
 
 						<a
 							href="${pageContext.request.contextPath}/userLogout?type=manager">
 							<span style="margin: 0 10px;"> <img
-								src="images/logoutlogo.png"
+								src="image/logoutlogo.png"
 								style="width: 30px; height: 25px; margin-top: 4px">
 						</span>
 						</a>
@@ -69,18 +69,18 @@
 						<a
 							href="${pageContext.request.contextPath}/myPage?myId=${loginedUser.id}">
 							<span style="margin: 0 10px;"> <img
-								src="images/userinfologo.png"
+								src="image/userinfologo.png"
 								style="width: 25px; height: 25px; margin-top: 4px">
 						</span>
 						</a>
 						<a href="javascript:void(0);" onclick="javascript:noti();"><span
-							style="margin: 0 10px;"> <img src="images/alarmlogo.png"
+							style="margin: 0 10px;"> <img src="image/alarmlogo.png"
 								style="width: 25px; height: 25px; margin-top: 4px">
 						</span></a>
 
 						<a href="${pageContext.request.contextPath}/userLogout?type=user">
 							<span style="margin: 0 10px;"> <img
-								src="images/logoutlogo.png"
+								src="image/logoutlogo.png"
 								style="width: 30px; height: 25px; margin-top: 4px">
 						</span>
 						</a>

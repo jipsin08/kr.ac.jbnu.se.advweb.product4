@@ -30,7 +30,7 @@ public class DBUtils {
 
 			UserAccount user = new UserAccount();
 
-			user.setid(id);
+			user.setId(id);
 			user.setPassword(password);
 
 
@@ -57,7 +57,7 @@ public class DBUtils {
 		if (rs.next()) {
 			String password = rs.getString("Password");
 			UserAccount user = new UserAccount();
-			user.setid(id);
+			user.setId(id);
 			user.setPassword(password);
 
 			return user;
