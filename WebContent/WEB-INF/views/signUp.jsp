@@ -10,6 +10,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <title>회원 가입</title>
+
+<style>
+#imagePreview > img {
+  height: 200px;
+  width: 200px;
+}
+</style>
 </head>
 <body>
 
@@ -18,7 +25,7 @@
         <div class="page-header">
     	    <h1>회원가입</h1>
         </div>
-        <form class="form-horizontal" method="POST" action="upload" enctype="multipart/form-data" >
+        <form class="form-horizontal" method="POST" id= "signupform"action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data" >
         <div class="form-group">
             <label class="col-sm-3 control-label" for="name">이름</label>
           <div class="col-sm-6">
@@ -35,8 +42,6 @@
         </span>
         </div>
        
-        <div class ="help-block"id="checkMsg"></div>
-          
         <div class="form-group">
           <label class="col-sm-3 control-label" for="password">비밀번호</label>
         <div class="col-sm-6">
@@ -58,8 +63,9 @@
         <div class = "form-group"  >
         	<label class="col-sm-3 control-label" for="profileImage">프로필 사진 등록</label>
         	 <div class="col-sm-6">
-  				<input class="form-control" id="profileImage" type="file" accept="image/*" name="upfile"><br/>
+  				<input class="form-control" id="profileImage" type="file" accept="image/*" name="upfile" capture="camera" onchange="getPrivew(this,$('#imagePreview'))" ><br/>
   			<br/>
+  			  <div id="imagePreview" style="width:100%;max-width:100%;display:none;"></div>
 		</div>
 		</div>
 		
@@ -93,9 +99,12 @@
    <script>
    $(document).ready(function(){
 	   
+	   var idchk,pwchk =false;
+	   
    $('#idChkBtn').click(function(){
 	   if($('#id').val().length == 0){
 		   alert('아이디를 입력해주세요.');
+		   return false;
 	   }
 	   else{
 		   var getId = $('#id').val();
@@ -105,9 +114,11 @@
            success: function(data){
             	   if(data ==="false"){
                    alert('이미 존재하는 아이디 입니다.');
+                   return false;
                }
                	else {
              	  alert(getId+'는 사용가능한 아이디 입니다.');
+             	 idchk = true;
                }
            }		
        }); 
@@ -121,35 +132,72 @@
        var reg_pw = /^.*(?=.{8,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/; 
        var reg_email = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
-      
        if(!reg_name.test($('#name').val())){
           alert('이름은 한글 최소 2글자 이상 입력해주세요.');
+          return false;
        }
        else if(!reg_id.test($("#id").val())){ 
            alert("아이디는 4-15자 이여야 하며 \n" 
                    +"., '-', '_'를 제외한 문자는 사용할 수 없습니다.");
+           return false;
 			} 
 	   else if(!reg_pw.test($("#password").val())){ 
   		 alert('비밀번호 형식이 잘못되었습니다.\n' 
   	    	 +'(영문,숫자를 혼합하여 8~20자 이내)'); 
+  		return false;
 			 } 
 	   else if(!reg_email.test($("#email").val())){ 
  		  alert('잘못된 이메일 형식입니다.'); 
+ 		 return false;
 			 } 
+	   else if(idchk === false){
+		   alert("아이디 중복확인을 해주세요.");
+		   return false;
+	   }
+	   else if(pwchk === false){
+		   alert("비밀번호 확인을 해주세요.");
+		   return false;
+	   }
+       
+       var input = document.createElement('input');
+       input.type = 'hidden';
+       input.name = "flag";
+       input.value = "signUp";
+       
+       
+       $('#signupform').append(input);
+       $('#signupform').submit();
+       alert('회원가입이 완료되었습니다.\n' + ('로그인 화면으로 넘어갑니다.'));
 		
 }); 
 	
 	  $('#passwordChkBtn').click(function(){
 		  if($('#password').val()==0){
 			 alert('비밀번호를 입력해주세요.');
+			 return false;
+		  }
+		  else if($('#passwordCheck').val() == 0){
+			 alert('비밀번호 확인을 입력해주세요');
 		  }
 		  else  if($('#password').val() != $('#passwordCheck').val()){
 	  		$('#pwmsg').html('<p style="color:red">비밀번호가 일치하지 않습니다.</p>');
-	  	 }else
+	  	 }else{
 	  		$('#pwmsg').html('<p style="color:blue">비밀번호가 일치합니다.</p>');
-	  			
+	  		pwchk = true;
+	  	 }	
 	  });
    });
+   
+   function getPrivew(html, $target) {
+	    if (html.files && html.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	            $target.css('display', '');
+	            $target.html('<img src="' + e.target.result + '" border="0" alt="" />');
+	        }
+	        reader.readAsDataURL(html.files[0]);
+	    }
+	}
    </script>
 
 </body>

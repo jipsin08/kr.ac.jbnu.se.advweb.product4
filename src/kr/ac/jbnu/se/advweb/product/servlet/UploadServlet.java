@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +17,10 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
+import kr.ac.jbnu.se.advweb.product.model.UserAccount;
 import kr.ac.jbnu.se.advweb.product.utils.DBUtils;
 import kr.ac.jbnu.se.advweb.product.utils.MyUtils;
 
@@ -29,9 +34,7 @@ import java.sql.SQLException;
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static final String DATA_DIRECTORY = "image";
-    private static final int MAX_MEMORY_SIZE = 1024 * 1024 * 2;
-    private static final int MAX_REQUEST_SIZE = 1024 * 1024;
+	boolean sizeError = false;
     
     /**
      * @see HttpServlet#HttpServlet()
@@ -47,7 +50,7 @@ public class UploadServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 	}
 
 	/**
@@ -55,75 +58,71 @@ public class UploadServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setCharacterEncoding("UTF-8");
+		MultipartRequest multi = null;
 		
-		String id = request.getParameter("upid");
-		String pw = request.getParameter("uppassword");
-		String email = request.getParameter("upemail");
-		String name = request.getParameter("upname");
-		response.setContentType("text/plane;charset=UTF-8");
+		int fileMaxSize = 10*1024*1024;
+		
+		String savePath = request.getRealPath("/image").replace("\\\\", "/");
+		
+		try {
+			multi = new MultipartRequest(request, savePath, fileMaxSize, "UTF-8",new DefaultFileRenamePolicy());
+		}catch(Exception e) {
+			
+			if(e.getMessage().indexOf("exceeds limit")> -1) { //파일사이즈 초과된 경우
+				boolean sizeError = true;
+			}
+		}
+		if(sizeError) {
+			response.setContentType("text/html; charset=UTF=8");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write("<script>alert(''); location.href=''; </script>");
+			return ;
+		}
+		
+		String flag = multi.getParameter("flag");
+		System.out.println(flag);
 		
 		Connection conn = MyUtils.getStoredConnection(request);
 		
+		if(flag.equals("signUp")) {
+			
+			String id = multi.getParameter("upid");
+			String pw = multi.getParameter("uppassword");
+			String email = multi.getParameter("upemail");
+			String name = multi.getParameter("upname");
+			
+			File file = multi.getFile("upfile"); //input name으로 첨부파일 받아옴
+			
+			UserAccount userAccount = new UserAccount();
+			userAccount.setId(id);
+			userAccount.setPw(pw);
+			userAccount.setEmail(email);
+			userAccount.setName(name);
 		
-		 // Check that we have a file upload request
-        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-
-        if (!isMultipart) {
-            return;
-        }
-
-        // Create a factory for disk-based file items
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-
-        // Sets the size threshold beyond which files are written directly to
-        // disk.
-        factory.setSizeThreshold(MAX_MEMORY_SIZE);
-
-        // Sets the directory used to temporarily store files that are larger
-        // than the configured size threshold. We use temporary directory for
-        // java
-        factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
-
-        // constructs the folder where uploaded file will be stored
-        String uploadFolder = getServletContext().getRealPath("")
-                + File.separator + DATA_DIRECTORY;
-
-        // Create a new file upload handler
-        ServletFileUpload upload = new ServletFileUpload(factory);
-
-        // Set overall request size constraint
-        upload.setSizeMax(MAX_REQUEST_SIZE);
-
-        try {
-            // Parse the request
-            List items = upload.parseRequest(request);
-            Iterator iter = items.iterator();
-            while (iter.hasNext()) {
-                FileItem item = (FileItem) iter.next();
-
-                if (!item.isFormField()) {
-                    String fileName = new File(item.getName()).getName();
-                    String filePath = uploadFolder + File.separator + fileName;
-                    File uploadedFile = new File(filePath);
-                    System.out.println(filePath);
-                    // saves the file to upload directory
-                    item.write(uploadedFile);
-                    
-                    DBUtils.insertForm(conn,id, pw, filePath, email, name);
-                }
-            }
-            
-        
-            getServletContext().getRequestDispatcher("/home").forward(
-                    request, response);
-
-        } catch (FileUploadException ex) {
-            throw new ServletException(ex);
-        } catch (Exception ex) {
-            throw new ServletException(ex);
-        }
-        
+		
+			if(file == null) {
+				System.out.println("파일이 존재하지 않습니다.");
+			}
+			else {
+			String fileName = multi.getFilesystemName("upfile");
+			String fileOriName = multi.getOriginalFileName("upfile");
+			String filePath = "/image/"+fileName;
+			
+			System.out.println(filePath);
+			try {
+				DBUtils.insertForm(conn, id, pw, filePath, email, name);
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				}
+		}
+		
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
+		dispatcher.forward(request, response);
+		
 		doGet(request, response);
 	}
 
