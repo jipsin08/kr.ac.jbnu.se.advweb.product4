@@ -26,7 +26,7 @@
 					<div class="card">
 						<span style="font-weight: bold; color: black;"> URL_ex </span>
 						<img alt="Responsive image"
-							src="https://img.wikinut.com/img/gycf69_-6rv_5fol/jpeg/0/Best-Friends-Img-Src%3AImage%3A-FreeDigitalPhotos.net.jpeg"
+							src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p160x160/16830719_997583997040323_2984424931716727767_n.jpg?oh=b34872f25dfa3d2f123becc64eaae59b&oe=5AA2B350"
 							style="height: 280px; width: auto;" class="img-thumbnail">
 					</div>
 					<p></p>
