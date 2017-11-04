@@ -11,43 +11,51 @@ import kr.ac.jbnu.se.advweb.product.model.UserManageInfo;
 import kr.ac.jbnu.se.advweb.product.model.Product;
 import kr.ac.jbnu.se.advweb.product.model.UserAccount;
 import kr.ac.jbnu.se.advweb.product.model.UserSearch;
+import kr.ac.jbnu.se.advweb.product.model.notificationInfo;
 
 public class DBUtils {
 
-	public static UserAccount findUser(Connection conn, //
-			String userName, String password) throws SQLException {
+	public static UserAccount findUser(Connection conn, String id, String password) throws SQLException {
 
-		String sql = "Select a.id, a.pw from user a " //
-				+ " where a.id= ? and a.pw= ?";
+		// String sql = "Select a.id, a.pw from user a where a.id= ? and a.pw=
+		// ?";
+		String sql = "select * from user where id=? and pw=?";
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
-		pstm.setString(1, userName);
+		pstm.setString(1, id);
 		pstm.setString(2, password);
 		ResultSet rs = pstm.executeQuery();
 
 		if (rs.next()) {
+
 			UserAccount user = new UserAccount();
-			user.setUserName(userName);
+
+			user.setid(id);
 			user.setPassword(password);
+			user.setImageUrl(rs.getString("imageUrl"));
+			user.setEmail(rs.getString("email"));
+			user.setName(rs.getString("name"));
+			user.setBlack_check(rs.getInt("black_check"));
+
 			return user;
 		}
+
 		return null;
 	}
 
-	public static UserAccount findUser(Connection conn, String userName) throws SQLException {
+	public static UserAccount findUser(Connection conn, String id) throws SQLException {
 
-		String sql = "Select a.id, a.pw from user a "//
-				+ " where a.id = ? ";
+		String sql = "Select a.id, a.pw from user a " + " where a.id = ? ";
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
-		pstm.setString(1, userName);
+		pstm.setString(1, id);
 
 		ResultSet rs = pstm.executeQuery();
 
 		if (rs.next()) {
 			String password = rs.getString("Password");
 			UserAccount user = new UserAccount();
-			user.setUserName(userName);
+			user.setid(id);
 			user.setPassword(password);
 			return user;
 		}
@@ -127,7 +135,7 @@ public class DBUtils {
 	public static List userSearch(Connection conn, String userId) throws SQLException {
 		String sql = "select * from user where id like'%" + userId + "%'";
 
-	 String a = "select * from user where id='"+userId+"'";
+		String a = "select * from user where id='" + userId + "'";
 		PreparedStatement pstm = conn.prepareStatement(sql);
 
 		ResultSet rs = pstm.executeQuery();
@@ -140,6 +148,31 @@ public class DBUtils {
 			UserSearch userSearch = new UserSearch(id, imageUrl);
 
 			list.add(userSearch);
+
+		}
+		return list;
+	}
+
+	public static List getNotification(Connection conn, String userId) throws SQLException {
+
+		String sql = "select * from noti where receiver='" + userId + "'";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		ResultSet rs = pstm.executeQuery();
+		List<notificationInfo> list = new ArrayList<notificationInfo>();
+
+		while (rs.next()) {
+
+			notificationInfo notificationInfo = new notificationInfo();
+
+			notificationInfo.setContent_id(rs.getInt("content_id"));
+			notificationInfo.setFriend_check(rs.getInt("friend_check"));
+			notificationInfo.setReceiver(rs.getString("receiver"));
+			notificationInfo.setSender(rs.getString("sender"));
+			notificationInfo.setType(rs.getString("type"));
+
+			list.add(notificationInfo);
 
 		}
 		return list;
@@ -159,7 +192,7 @@ public class DBUtils {
 			String id = rs.getString("id");
 			String imageUrl = rs.getString("imageUrl");
 			int flag = rs.getInt("black_check");
-			UserManageInfo blockedUser = new UserManageInfo(id, imageUrl,flag);
+			UserManageInfo blockedUser = new UserManageInfo(id, imageUrl, flag);
 
 			list.add(blockedUser);
 
@@ -181,7 +214,7 @@ public class DBUtils {
 			String id = rs.getString("id");
 			String imageUrl = rs.getString("imageUrl");
 			int flag = rs.getInt("black_check");
-			UserManageInfo blockedUser = new UserManageInfo(id, imageUrl,flag);
+			UserManageInfo blockedUser = new UserManageInfo(id, imageUrl, flag);
 
 			list.add(blockedUser);
 
@@ -191,12 +224,60 @@ public class DBUtils {
 
 	public static void userBlockedConfirm(Connection conn, String userId) throws SQLException {
 
-		String sql = "update user set black_check=2 where id='" + userId+"'";
+		String sql = "update user set black_check=2 where id='" + userId + "'";
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
 
 		pstm.executeUpdate();
 
+	}
+
+	public static void friendRequest(Connection conn, String sender, String receiver) throws SQLException {
+
+		String sql = "Insert into noti(sender,receiver,type,friend_check) values (?,?,?,1)";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		pstm.setString(1, sender);
+		pstm.setString(2, receiver);
+		pstm.setString(3, "friend");
+
+		pstm.executeUpdate();
+
+	}
+
+	public static notificationInfo friendRequestCheck(Connection conn, String sender, String receiver)
+			throws SQLException {
+
+		String sql = "select sender,receiver,friend_check from noti where sender=? and receiver=?";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, sender);
+		pstm.setString(2, receiver);
+		ResultSet rs = pstm.executeQuery();
+
+		if (rs.next()) {
+
+			notificationInfo notificationInfo = new notificationInfo();
+
+			notificationInfo.setFriend_check(rs.getInt("friend_check"));
+			notificationInfo.setSender(rs.getString("sender"));
+			notificationInfo.setReceiver(rs.getString("receiver"));
+
+			return notificationInfo;
+		}
+
+		return null;
+	}
+
+	public static void friendRequestConfirm(Connection conn, String sender, String receiver) throws SQLException {
+		String sql = "Update noti set friend_check=2 where sender=? and receiver=? ";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		pstm.setString(1, sender);
+		pstm.setString(2, receiver);
+		pstm.executeUpdate();
 	}
 
 }

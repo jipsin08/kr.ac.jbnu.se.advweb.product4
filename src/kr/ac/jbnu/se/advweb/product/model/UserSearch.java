@@ -2,11 +2,11 @@ package kr.ac.jbnu.se.advweb.product.model;
 
 public class UserSearch {
 
-	private String userId;
+	private String id;
 	private String imageUrl;
 
-	public UserSearch(String userId,String imageUrl) {
-		this.userId=userId;
+	public UserSearch(String id,String imageUrl) {
+		this.id=id;
 		this.imageUrl=imageUrl;
 	}
 
@@ -18,12 +18,12 @@ public class UserSearch {
 		this.imageUrl = imageUrl;
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getid() {
+		return id;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setid(String id) {
+		this.id = id;
 	}
 	
 	

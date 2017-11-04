@@ -16,53 +16,72 @@ import kr.ac.jbnu.se.advweb.product.model.UserAccount;
 import kr.ac.jbnu.se.advweb.product.utils.DBUtils;
 import kr.ac.jbnu.se.advweb.product.utils.MyUtils;
 
-@WebServlet("/login2")
+@WebServlet(urlPatterns = { "/login2" })
+
 public class LoginServlet2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public LoginServlet2() {
-        super();
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher 
-				= this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView2.jsp");
+	public LoginServlet2() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView2.jsp");
 		dispatcher.forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userName = request.getParameter("ID");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String id = request.getParameter("ID");
 		String password = request.getParameter("PW");
 		String rememberMeStr = request.getParameter("remember");
 		boolean remember = "Y".equals(rememberMeStr);
-		
+
 		UserAccount user = null;
 		boolean hasError = false;
 		String errorString = null;
+		boolean isManager = false;
 
-		if (userName == null || password == null || userName.length() == 0 || password.length() == 0) {
+		if (id.equals("manager") && password.equals("123")) {
+			isManager = true;
+		}
+
+		if (id == null || password == null || id.length() == 0 || password.length() == 0) {
 			hasError = true;
 			errorString = "아이디와 비밀번호를 확인하세요";
 		} else {
+
 			Connection conn = MyUtils.getStoredConnection(request);
 			try {
 				// Find the user in the DB.
-				user = DBUtils.findUser(conn, userName, password);
+				user = DBUtils.findUser(conn, id, password);
 
 				if (user == null) {
+
 					hasError = true;
 					errorString = "없는 아이디 또는 비밀번호 입니다.";
+					if (isManager) {
+						hasError = false;
+					}
+
 				}
+
 			} catch (SQLException e) {
+
 				e.printStackTrace();
 				hasError = true;
 				errorString = e.getMessage();
 			}
+
 		}
 		// If error, forward to /WEB-INF/views/login.jsp
 		if (hasError) {
+
+			
 			user = new UserAccount();
-			user.setUserName(userName);
+			user.setid(id);
 			user.setPassword(password);
 
 			// Store information in request attribute, before forward.
@@ -74,25 +93,41 @@ public class LoginServlet2 extends HttpServlet {
 					= this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView2.jsp");
 
 			dispatcher.forward(request, response);
+
 		}
 		// If no error
 		// Store user information in Session
 		// And redirect to userInfo page.
 		else {
-			HttpSession session = request.getSession();
-			MyUtils.storeLoginedUser(session, user);
 
-			// If user checked "Remember me".
-			if (remember) {
-				MyUtils.storeUserCookie(response, user);
-			}
-			// Else delete cookie.
-			else {
-				MyUtils.deleteUserCookie(response);
+			if (user != null) {
+
+				
+				HttpSession session = request.getSession();
+
+				MyUtils.storeLoginedUser(session, user);
+				MyUtils.deleteLoginedManager(session);
+				
+				// If user checked "Remember me".
+				if (remember) {
+					MyUtils.storeUserCookie(response, user);
+				}
+				// Else delete cookie.
+				else {
+					MyUtils.deleteUserCookie(response);
+				}
 			}
 
+			if (isManager) {
+				
+				HttpSession session = request.getSession();
+
+				MyUtils.storeLoginedManager(session);
+				MyUtils.deleteLoginedUser(session);
+			}
 			// Redirect to userInfo page.
-			response.sendRedirect(request.getContextPath() + "/userInfo");
+			response.sendRedirect(request.getContextPath() + "/home");
+
 		}
 	}
 

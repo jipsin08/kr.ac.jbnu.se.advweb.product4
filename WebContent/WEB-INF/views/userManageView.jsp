@@ -62,7 +62,7 @@
 
 	function userReport() {
 
-		$.get("${pageContext.request.contextPath}/userReport", {
+		$.get("${pageContext.request.contextPath}/userReportList", {
 
 		}, function(data) {
 
@@ -73,7 +73,7 @@
 
 	function userBlock() {
 
-		$.get("${pageContext.request.contextPath}/userBlock", {
+		$.get("${pageContext.request.contextPath}/userBlockList", {
 
 		}, function(data) {
 

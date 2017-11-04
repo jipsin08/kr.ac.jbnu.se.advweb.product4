@@ -17,11 +17,11 @@ import kr.ac.jbnu.se.advweb.product.model.UserSearch;
 import kr.ac.jbnu.se.advweb.product.utils.DBUtils;
 import kr.ac.jbnu.se.advweb.product.utils.MyUtils;
 
-@WebServlet("/UserSearchServlet")
-public class UserSearchServlet extends HttpServlet {
+@WebServlet("/notification")
+public class NotificationView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public UserSearchServlet() {
+	public NotificationView() {
 		super();
 
 	}
@@ -31,12 +31,12 @@ public class UserSearchServlet extends HttpServlet {
 
 		Connection conn = MyUtils.getStoredConnection(request);
 		List list = null;
-		String userId = request.getParameter("userId");
-		System.out.println(request.getParameter("test"));
+		String userId = request.getParameter("userId"); // 알람의 주체 나의 알람이 뜬다~
+		System.out.println(userId);
 
 		try {
 
-			list = DBUtils.userSearch(conn, userId);
+			list = DBUtils.getNotification(conn, userId);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -45,7 +45,7 @@ public class UserSearchServlet extends HttpServlet {
 		request.setAttribute("result", list);
 
 		RequestDispatcher dispatcher = this.getServletContext()
-				.getRequestDispatcher("/WEB-INF/views/userSearchResultView.jsp");
+				.getRequestDispatcher("/WEB-INF/views/notificationView.jsp");
 		dispatcher.forward(request, response);
 
 	}

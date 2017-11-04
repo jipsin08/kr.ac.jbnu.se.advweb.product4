@@ -18,7 +18,7 @@
 	<div style="margin-left: 10px">
 		<span> <img src="images/userinfologo.png" class="rounded"
 			style="width: 25px; height: 25px; margin-top: 4px"></span> 
-			<a href="${pageContext.request.contextPath}/#"><span>${list.userId}</span></a>
+			<a href="${pageContext.request.contextPath}/userInfo?sender=${loginedUser.id}&receiver=${list.id}"><span>${list.id}</span></a>
 	</div>
 
 </c:forEach>

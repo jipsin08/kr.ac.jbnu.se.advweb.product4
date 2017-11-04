@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import kr.ac.jbnu.se.advweb.product.utils.DBUtils;
 import kr.ac.jbnu.se.advweb.product.utils.MyUtils;
 
-@WebServlet(urlPatterns = { "/userBlock" })
-public class UserBlockServlet extends HttpServlet {
+@WebServlet(urlPatterns = { "/userBlockList" })
+public class UserBlockListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public UserBlockServlet() {
+	public UserBlockListServlet() {
 		super();
 
 	}

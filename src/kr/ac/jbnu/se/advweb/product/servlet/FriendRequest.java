@@ -3,6 +3,7 @@ package kr.ac.jbnu.se.advweb.product.servlet;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -12,14 +13,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.ac.jbnu.se.advweb.product.model.UserSearch;
+import kr.ac.jbnu.se.advweb.product.model.notificationInfo;
 import kr.ac.jbnu.se.advweb.product.utils.DBUtils;
 import kr.ac.jbnu.se.advweb.product.utils.MyUtils;
 
-@WebServlet(urlPatterns = { "/userReport" })
-public class UserReportServlet extends HttpServlet {
+@WebServlet("/FriendRequest")
+public class FriendRequest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public UserReportServlet() {
+	public FriendRequest() {
 		super();
 
 	}
@@ -28,19 +31,26 @@ public class UserReportServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		Connection conn = MyUtils.getStoredConnection(request);
-		List list = null;
-		
+
+		String sender = request.getParameter("me");
+		String receiver = request.getParameter("you");
+
+		notificationInfo notificationInfo = null;
 		try {
-			list = DBUtils.getReportedUser(conn);
+
+			DBUtils.friendRequest(conn, sender, receiver);
+			notificationInfo = DBUtils.friendRequestCheck(conn, sender, receiver);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		request.setAttribute("User",list);
+		request.setAttribute("notificationInfo", notificationInfo);
+		request.setAttribute("pageUserId", receiver);
 		
-		RequestDispatcher dispatcher = this.getServletContext()
-				.getRequestDispatcher("/WEB-INF/views/_userManageInfoView.jsp");
+		
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
+		
 		dispatcher.forward(request, response);
 	}
 
