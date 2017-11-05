@@ -63,7 +63,7 @@ public class UploadBoardPostServlet extends HttpServlet {
 		         multi = new MultipartRequest(request, savePath, fileMaxSize, "UTF-8",new DefaultFileRenamePolicy());
 		      }catch(Exception e) {
 		         
-		         if(e.getMessage().indexOf("exceeds limit")> -1) { //ÆÄÀÏ»çÀÌÁî ÃÊ°úµÈ °æ¿ì
+		         if(e.getMessage().indexOf("exceeds limit")> -1) { //ï¿½ï¿½ï¿½Ï»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		            sizeError = true;
 		         }
 		      }
@@ -81,14 +81,14 @@ public class UploadBoardPostServlet extends HttpServlet {
 		      if(flag.equals("image")) {
 		      	 HttpSession session = request.getSession();
 		      	 
-		         String userId = MyUtils.getLoginedUser(session).getUserName(); //Merge ÇÏ°í ³­µÚ¿¡ getUserId·Î ¹Ù²Üµí (¹ÎÁßÀÌ°¡¹Ù²Û°ÍÀ¸·Î)
+		         String userId = MyUtils.getLoginedUser(session).getId(); //Merge ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ getUserIdï¿½ï¿½ ï¿½Ù²Üµï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ï¿½Ù²Û°ï¿½ï¿½ï¿½ï¿½ï¿½)
 		         String content = multi.getParameter("content");
 		         String category = multi.getParameter("tag");
 		         
-		         File file = multi.getFile("upfile"); //input nameÀ¸·Î Ã·ºÎÆÄÀÏ ¹Þ¾Æ¿È
+		         File file = multi.getFile("upfile"); //input nameï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½
 		         
 		         if(file == null) {
-		            System.out.println("ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+		            System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 		         }
 		         else {
 		         String fileName = multi.getFilesystemName("upfile");

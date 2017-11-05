@@ -43,107 +43,53 @@
 						class="img-thumbnail">
 				</div>
 				<div class="col-sm-8">
+					<h3>Hello: ${user.userName}</h3>
+
+					User Name: <b>${user.userName}</b> <br /> <br /> <a
+						href="javascript:void(0);" onclick="javascript:showUserInfo();">Show
+						More</a>
+					<div id="additioalUserInfo"></div>
+					<c:choose>
+
+						<c:when test="${notificationInfo.friend_check == null}">
+							<a
+								href="${pageContext.request.contextPath}/FriendRequest?me=${loginedUser.id}&you=${pageUserId}"
+								class="btn btn-primary">친구맺기</a>
+						</c:when>
+
+						<c:when test="${notificationInfo.friend_check == 1}">
+							<a
+								href="${pageContext.request.contextPath}/FriendRequest?me=${loginedUser.id}&you=${pageUserId}"
+								class="btn btn-primary">친구요청보냄</a>
+						</c:when>
+
+					</c:choose>
+
+					<a href="#" class="btn btn-secondary">Report</a> 
+					<a href="#" class="btn btn-secondary">test 친구맺기 승인</a> 
+					<a href="${pageContext.request.contextPath}/upLoadContents" class="btn btn-secondary">UpLoad</a>
+					
+
+				</div>
+			</div>
+
+		</div>
+	</section>
 
 
-					<section class="jumbotron text-center">
-						<div class="container">
-							<div class="row">
-								<div class="col-sm-4">
-									<img alt="Responsive image" src="image/signin.png"
-										class="img-thumbnail">
-								</div>
-								<div class="col-sm-8">
-									<h3></h3>
+	<jsp:include page="_gallery.jsp"></jsp:include>
+	<jsp:include page="_footer.jsp"></jsp:include>
 
-									User Name: <b></b> <br /> <br />
-									${notificationInfo.friend_check}
-									<c:choose>
-
-										<c:when test="${notificationInfo.friend_check == null}">
-											<a
-												href="${pageContext.request.contextPath}/FriendRequest?me=${loginedUser.id}&you=${pageUserId}"
-												class="btn btn-primary">친구맺기</a>
-										</c:when>
-
-										<c:when test="${notificationInfo.friend_check == 1}">
-											<a
-												href="${pageContext.request.contextPath}/FriendRequest?me=${loginedUser.id}&you=${pageUserId}"
-												class="btn btn-primary">친구요청보냄</a>
-										</c:when>
-
-
-										
-
-									</c:choose>
-
-									<a href="#" class="btn btn-secondary">Report</a> <a href="#"
-										class="btn btn-secondary">test 친구맺기 승인</a>
-
-
-								</div>
-							</div>
-
-						</div>
-					</section>
-
-
-
-					<jsp:include page="_gallery.jsp"></jsp:include>
-					<jsp:include page="_footer.jsp"></jsp:include>
-
-					<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-						integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-						crossorigin="anonymous"></script>
-					<script
-						src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
-						integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
-						crossorigin="anonymous"></script>
-					<script
-						src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
-						integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
-						crossorigin="anonymous"></script>
-						
-<!-- 	<section class="jumbotron text-center"> -->
-<!-- 		<div class="container"> -->
-<!-- 			<div class="row"> -->
-<!-- 				<div class="col-sm-4"> -->
-<!-- 					<img alt="Responsive image" src="image/mango.jpg" -->
-<!-- 						class="img-thumbnail"> -->
-<!-- 				</div> -->
-<!-- 				<div class="col-sm-8"> -->
-<%-- 					<h3>Hello: ${user.userName}</h3> --%>
-
-<%-- 					User Name: <b>${user.userName}</b> <br /> <br /> <a --%>
-<!-- 						href="javascript:void(0);" onclick="javascript:showUserInfo();">Show -->
-<!-- 						More</a> -->
-<!-- 					<div id="additioalUserInfo"></div> -->
-
-<!-- 					<p> -->
-<!-- 						<a href="#" class="btn btn-primary">add friend</a>  -->
-<!-- 						<a href="#" class="btn btn-secondary">Report</a> -->
-<%-- 						<a href="${pageContext.request.contextPath}/upLoadContents" class="btn btn-secondary">UpLoad</a> --%>
-<!-- 					</p> -->
-
-<!-- 				</div> -->
-<!-- 			</div> -->
-
-<!-- 		</div> -->
-<!-- 	</section> -->
-
-
-<%-- 	<jsp:include page="_gallery.jsp"></jsp:include> --%>
-<%-- 	<jsp:include page="_footer.jsp"></jsp:include> --%>
-
-<!-- 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" -->
-<!-- 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" -->
-<!-- 		crossorigin="anonymous"></script> -->
-<!-- 	<script -->
-<!-- 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" -->
-<!-- 		integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" -->
-<!-- 		crossorigin="anonymous"></script> -->
-<!-- 	<script -->
-<!-- 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" -->
-<!-- 		integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" -->
-<!-- 		crossorigin="anonymous"></script> -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+		integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+		integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+		crossorigin="anonymous"></script>
 </body>
 </html>
