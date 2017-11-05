@@ -105,7 +105,7 @@ public class UploadServlet extends HttpServlet {
 			else {
 			String fileName = multi.getFilesystemName("upfile");
 			String fileOriName = multi.getOriginalFileName("upfile");
-			String filePath = "/image/"+fileName;
+			String filePath = "image/"+fileName;
 			
 			System.out.println(filePath);
 			try {
@@ -118,9 +118,7 @@ public class UploadServlet extends HttpServlet {
 				}
 		}
 		
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
-		dispatcher.forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/login2");
 		
 		doGet(request, response);
 	}

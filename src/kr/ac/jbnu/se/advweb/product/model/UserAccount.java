@@ -2,13 +2,14 @@ package kr.ac.jbnu.se.advweb.product.model;
 
 public class UserAccount {
 
-	public static final String GENDER_MALE = "M";
-	public static final String GENDER_FEMALE = "F";
-
 	private String userName;
-	private String gender;
 	private String password;
-
+	private String id;
+	private String pw;
+	private String imageurl;
+	private String email;
+	private String name;
+	
 	public UserAccount() {
 
 	}
@@ -21,14 +22,6 @@ public class UserAccount {
 		this.userName = userName;
 	}
 
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -37,4 +30,47 @@ public class UserAccount {
 		this.password = password;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public String getPw() {
+		return pw;
+	}
+
+	public void setPw(String pw) {
+		this.pw= pw;
+	}
+	public String getImageUrl() {
+		return imageurl;
+	}
+
+	public void setImageUrl(String imageurl) {
+		this.imageurl =imageurl;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email =email;
+	}
+	
+	public String getName() {
+		return email;
+	}
+
+	public void setName(String name) {
+		this.name =name;
+	}
+
+	
+	
+
+	
 }
