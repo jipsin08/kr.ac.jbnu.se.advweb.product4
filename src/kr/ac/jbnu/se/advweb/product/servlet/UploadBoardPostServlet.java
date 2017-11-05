@@ -106,7 +106,7 @@ public class UploadBoardPostServlet extends HttpServlet {
 		      }
 		      
 		      
-		      RequestDispatcher dispatcher = request.getRequestDispatcher("/userInfo");
+		      RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
 		      dispatcher.forward(request, response);
 		      
 		      doGet(request, response);
