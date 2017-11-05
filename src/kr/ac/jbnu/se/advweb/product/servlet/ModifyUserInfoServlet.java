@@ -86,10 +86,11 @@ public class ModifyUserInfoServlet extends HttpServlet {
 			else {
 			String fileName = multi.getFilesystemName("upfile");
 			String fileOriName = multi.getOriginalFileName("upfile");
-			String filePath = "/image/"+fileName;
+			String filePath = "image/"+fileName;
 			
 			System.out.println(filePath);
 		
+			
 			}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/home");

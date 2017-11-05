@@ -42,15 +42,15 @@ public class UserInfoServlet extends HttpServlet {
 		String moreInfo = request.getParameter("more");
 
 		HttpSession session = request.getSession();
-		String pageUserId = request.getParameter("receiver"); // ?‚´ê°? ê²??ƒ‰?•œ ?•„?´?””(?ƒ??ë°?
-		// ?•„?´?””)
+		String pageUserId = request.getParameter("receiver"); // ?ï¿½ï¿½ï¿½? ï¿½??ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½(?ï¿½ï¿½??ï¿½?
+		// ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½)
 		notificationInfo notificationInfo = null;
 
 		// Check User has logged on
 		UserAccount loginedUser = MyUtils.getLoginedUser(session);
 		try {
 			notificationInfo = DBUtils.friendRequestCheck(conn, request.getParameter("sender"),
-					request.getParameter("receiver")); // ?‘˜?˜ ì¹œêµ¬?ƒ?ƒœ ?—¬ë¶?ë¥? ?™•?¸?•˜ê¸? ?œ„?•¨
+					request.getParameter("receiver")); // ?ï¿½ï¿½?ï¿½ï¿½ ì¹œêµ¬?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½?ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,23 +70,48 @@ public class UserInfoServlet extends HttpServlet {
 
 		// If the user has logged in, then forward to the page
 		// /WEB-INF/views/userInfoView.jsp
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
-		dispatcher.forward(request, response);
+		//RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
+		//dispatcher.forward(request, response);
 
 		if (moreInfo == null) {
 			// If the user has logged in, then forward to the page
 			// /WEB-INF/views/userInfoView.jsp
-			dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
+			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
 			dispatcher.forward(request, response);
 		} else {
-			dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/additionalUserInfoView.jsp");
+			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/additionalUserInfoView.jsp");
 			dispatcher.forward(request, response);
 		}
+		
+		
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+	
+		
+		HttpSession session = request.getSession();
+		String userId = MyUtils.getLoginedUser(session).getId();
+		UserAccount us = null;
+		
+		Connection conn = MyUtils.getStoredConnection(request);
+		
+		try {
+			us = DBUtils.findUser(conn, userId);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(us.getImageUrl());
+		request.setAttribute("name", us.getName());
+		request.setAttribute("imageurl", us.getImageUrl());
+		request.setAttribute("email", us.getEmail());
+		
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
+		dispatcher.forward(request, response);
+		
 	}
 
 }

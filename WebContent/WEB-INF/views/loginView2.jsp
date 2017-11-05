@@ -72,9 +72,8 @@
 					name="remember" value="Y"> <label class="col-sm">아이디
 					저장</label> <input type="submit" class="btn btn-info" value="로그인" />
 			</div>
-			<!--회원가입 url삽입해야함-->
 			<input type="button" class="btn btn-info" value="회원가입"
-				onclick="location.href='../회원가입url삽입'" />
+				onclick="location.href='signup'" />
 		</form>
 	</div>
 

@@ -22,16 +22,11 @@
 <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 
 <script>
-	$(document).ready(function() {
+	
+	$('#modify').click(function(){
+		
+		
 	});
-
-	function showUserInfo() {
-		$.get("${pageContext.request.contextPath}/userInfo", {
-			more : "Yes"
-		}, function(data) {
-			$('#additioalUserInfo').html(data);
-		});
-	}
 </script>
 
 </head>
@@ -63,13 +58,6 @@
 								class="btn btn-primary">친구맺기</a>
 						</c:when>
 
-					<p>
-						<a href="#" class="btn btn-primary">add friend</a> 
-						<button class="btn btn-primary" data-toggle="modal" data-target="#userInfoModify" >modify</button> 
-						<a href="#"
-							class="btn btn-secondary">Report</a>
-					</p>
-
 						<c:when test="${notificationInfo.friend_check == 1}">
 							<a
 								href="${pageContext.request.contextPath}/FriendRequest?me=${loginedUser.id}&you=${pageUserId}"
@@ -77,11 +65,11 @@
 						</c:when>
 
 					</c:choose>
-
+					
 					<a href="#" class="btn btn-secondary">Report</a> 
 					<a href="#" class="btn btn-secondary">test 친구맺기 승인</a> 
 					<a href="${pageContext.request.contextPath}/upLoadContents" class="btn btn-secondary">UpLoad</a>
-
+					<button class="btn btn-primary" data-toggle="modal" data-target="#userInfoModify" id = "modify" >modify</button> 
 
 				</div>
 			</div>
@@ -105,13 +93,13 @@
         <div>
             <label  for="name">이름</label>
           <div>
-            <input class="form-control" id="name" type="text" name="upname" placeholder="이름">
+            <input class="form-control" id="name" type="text" name="name" placeholder="이름">
           </div>
         </div>
         <div>
           <label for="password">비밀번호</label>
         <div>
-          <input class="form-control" id="password" type="password" name="uppassword" placeholder="비밀번호">
+          <input class="form-control" id="password" type="password" name="password" placeholder="비밀번호">
         <p style="color:gray; font-size: 14px;">숫자, 특수문자 포함 8자 이상</p>
         </div>
         </div>
@@ -128,14 +116,14 @@
           <div class="form-group">
           <label for="email">이메일</label>
         <div>
-          <input class="form-control" id="email" type="email" name="upemail" placeholder="이메일">
+          <input class="form-control" id="email" type="email" name="email" placeholder="이메일">
         </div>
         </div>
         
         <div >
         	<label for="profileImage">프로필 사진 수정</label>
         	 <div>
-  				<input class="form-control" id="profileImage" type="file" accept="image/*" name="upfile" capture="camera" onchange="getPrivew(this,$('#imagePreview'))" ><br/>
+  				<input class="form-control" id="profileImage" type="file" accept="image/*" name="file" capture="camera" onchange="getPrivew(this,$('#imagePreview'))" ><br/>
   			<br/>
   			  <div id="imagePreview" style="width:100%;max-width:100%;display:none;"></div>
 		</div>

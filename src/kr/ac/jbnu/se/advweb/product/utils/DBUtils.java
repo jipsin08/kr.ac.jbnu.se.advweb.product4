@@ -75,7 +75,7 @@ public class DBUtils {
 
 	public static UserAccount findUser(Connection conn, String id) throws SQLException {
 
-		String sql = "Select a.id, a.pw from user a " + " where a.id = ? ";
+		String sql = "Select * from user where id = ?";
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
 		pstm.setString(1, id);
@@ -83,10 +83,19 @@ public class DBUtils {
 		ResultSet rs = pstm.executeQuery();
 
 		if (rs.next()) {
-			String password = rs.getString("Password");
+			String password = rs.getString("password");
+			String imageurl = rs.getString("imageurl");
+			String email = rs.getString("email");
+			String name = rs.getString("name");
+			int black_check = rs.getInt("black_check");
+			
 			UserAccount user = new UserAccount();
 			user.setId(id);
 			user.setPassword(password);
+			user.setImageUrl(imageurl);
+			user.setEmail(email);
+			user.setName(name);
+			user.setBlack_check(black_check);
 
 			return user;
 		}
@@ -197,10 +206,10 @@ public class DBUtils {
 
 	}
 
-	public static void UpdateUserInfo(Connection conn, String id, String pw, String imageurl, String email, String name)
+	public static void UpdateUserInfo(Connection conn, String userId, String pw, String imageurl, String email, String name)
 			throws SQLException {
 
-		String sql = "Update user set pw =?, imageurl=? ,email=?, name =? where id='" + id + "'";
+		String sql = "Update user set pw =?, imageurl=? ,email=?, name =? where id='" + userId + "'";
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
 
