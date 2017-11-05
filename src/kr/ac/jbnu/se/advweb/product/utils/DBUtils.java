@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.jbnu.se.advweb.product.model.Content;
+import kr.ac.jbnu.se.advweb.product.model.ContentInfo;
 import kr.ac.jbnu.se.advweb.product.model.Product;
 import kr.ac.jbnu.se.advweb.product.model.UserAccount;
 import kr.ac.jbnu.se.advweb.product.model.UserManageInfo;
@@ -369,4 +370,54 @@ public class DBUtils {
 
 		pstm.executeUpdate();
 	}
+
+	public static UserAccount getPageUser(Connection conn, String pageUserId) throws SQLException {
+		// ?";
+		String sql = "select * from user where id='" + pageUserId + "'";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+
+		if (rs.next()) {
+
+			UserAccount user = new UserAccount();
+
+			user.setId(rs.getString("id"));
+			user.setPassword(rs.getString("pw"));
+			user.setBlack_check(rs.getInt("black_check"));
+			user.setEmail(rs.getString("email"));
+			user.setImageUrl(rs.getString("imageUrl"));
+			user.setName(rs.getString("name"));
+			System.out.println("!!!!!!!!!!!!" + rs.getString("name"));
+			return user;
+		}
+
+		return null;
+
+	}
+
+	public static List<ContentInfo> getPageInfo(Connection conn, String userId) throws SQLException {
+
+		String sql = "select u.imageUrl, u.name, u.id, c.path from user u, content c where u.id=c.user_id and u.id='"+userId+"'";
+		List<ContentInfo> list = new ArrayList<ContentInfo>();
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+
+		while (rs.next()) {
+			ContentInfo ContentInfo = new ContentInfo();
+
+			ContentInfo.setContentImage(rs.getString("path"));
+			ContentInfo.setName(rs.getString("name"));
+			ContentInfo.setProfileImage(rs.getString("imageUrl"));
+			ContentInfo.setUser_id(rs.getNString("id"));
+			;
+
+			list.add(ContentInfo);
+
+		}
+
+		return list;
+	}
+
 }

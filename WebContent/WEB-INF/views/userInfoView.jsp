@@ -43,9 +43,9 @@
 						class="img-thumbnail">
 				</div>
 				<div class="col-sm-8">
-					<h3>Hello: ${user.userName}</h3>
+					<h3>Hello: ${UserAccount.id}</h3>
 
-					User Name: <b>${user.userName}</b> <br /> <br /> <a
+					User Name: <b>${UserAccount.name}</b> <br /> <br /> <a
 						href="javascript:void(0);" onclick="javascript:showUserInfo();">Show
 						More</a>
 					<div id="additioalUserInfo"></div>
@@ -53,23 +53,20 @@
 
 						<c:when test="${notificationInfo.friend_check == null}">
 							<a
-								href="${pageContext.request.contextPath}/FriendRequest?me=${loginedUser.id}&you=${pageUserId}"
+								href="${pageContext.request.contextPath}/FriendRequest?me=${loginedUser.id}&you=${UserAccount.id}"
 								class="btn btn-primary">친구맺기</a>
 						</c:when>
 
 						<c:when test="${notificationInfo.friend_check == 1}">
 							<a
-								href="${pageContext.request.contextPath}/FriendRequest?me=${loginedUser.id}&you=${pageUserId}"
+								href="${pageContext.request.contextPath}/FriendRequest?me=${loginedUser.id}&you=${UserAccount.id}"
 								class="btn btn-primary">친구요청보냄</a>
 						</c:when>
 
 					</c:choose>
 
-					<a href="#" class="btn btn-secondary">Report</a> 
-					<a href="#" class="btn btn-secondary">test 친구맺기 승인</a> 
-					<a href="${pageContext.request.contextPath}/upLoadContents" class="btn btn-secondary">UpLoad</a>
+					<a href="#" class="btn btn-secondary">신고하기</a> 
 					
-
 				</div>
 			</div>
 
@@ -78,7 +75,7 @@
 
 
 	<jsp:include page="_gallery.jsp"></jsp:include>
-	<jsp:include page="_footer.jsp"></jsp:include>
+	
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
