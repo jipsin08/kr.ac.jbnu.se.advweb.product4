@@ -73,8 +73,9 @@
 								style="width: 25px; height: 25px; margin-top: 4px">
 						</span>
 						</a>
-						<a href="javascript:void(0);" onclick="javascript:noti();"><span
-							style="margin: 0 10px;"> <img src="image/alarmlogo.png"
+						<a href="javascript:void(0);" id="alarmlogo"
+							onclick="javascript:noti();"><span style="margin: 0 10px;">
+								<img src="image/alarmlogo.png"
 								style="width: 25px; height: 25px; margin-top: 4px">
 						</span></a>
 
@@ -86,12 +87,13 @@
 						</a>
 
 					</c:when>
+
 				</c:choose>
+
 
 				<div id="notificationInfo"
 					style="width: 100%; background-color: #F2F2F2; display: none; OVERFLOW-Y: auto; height: 150px; position: absolute; z-index: 2; border-radius: 3%">
 				</div>
-
 			</div>
 			<c:if test="${not empty loginedUser}">
 				<div class="col-md-3">${loginedUser.id}님이로그인했습니다.</div>
@@ -128,12 +130,6 @@
 		});
 	});
 
-	$('body').click(function(evt) {
-		if (!$(evt.target).is('#userSearch')) {
-			$('#userSearch').hide();
-		}
-	});
-
 	var notiView;
 
 	(function() {
@@ -157,16 +153,17 @@
 		, 2000)
 	})();
 
+	$('body').click(function(evt) {
+		if ($(evt.target).is('#notificationInfo')) {
+			$('#notificationInfo').hide();
+		}
+
+	});
+
 	function noti() {
 
 		$('#notificationInfo').html(notiView);
-        $('#notificationInfo').show();
+		$('#notificationInfo').show();
 
 	}
-
-	$('body').click(function(evt) {
-		if (!$(evt.target).is('#notificationInfo')) {
-			$('#notificationInfo').hide();
-		}
-	});
 </script>
