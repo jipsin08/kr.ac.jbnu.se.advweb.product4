@@ -37,20 +37,27 @@ public class UserInfoServlet extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		http://localhost:8080/product/userInfo?sender=whwlsvy12&receiver=a
+		
 		request.setAttribute("content", list);
 
 		String moreInfo = request.getParameter("more");
-
+		UserAccount UserAccount = null;
+		
 		HttpSession session = request.getSession();
-		String pageUserId = request.getParameter("receiver"); // ?‚´ê°? ê²??ƒ‰?•œ ?•„?´?””(?ƒ??ë°?
-		// ?•„?´?””)
+		String pageUserId = request.getParameter("receiver"); // ?ï¿½ï¿½ï¿½? ï¿½??ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½(?ï¿½ï¿½??ï¿½?
+		// ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½)
 		notificationInfo notificationInfo = null;
 
+		
 		// Check User has logged on
 		UserAccount loginedUser = MyUtils.getLoginedUser(session);
 		try {
+			
+			UserAccount = DBUtils.getPageUser(conn,pageUserId);
 			notificationInfo = DBUtils.friendRequestCheck(conn, request.getParameter("sender"),
-					request.getParameter("receiver")); // ?‘˜?˜ ì¹œêµ¬?ƒ?ƒœ ?—¬ë¶?ë¥? ?™•?¸?•˜ê¸? ?œ„?•¨
+					request.getParameter("receiver")); // ?ï¿½ï¿½?ï¿½ï¿½ ì¹œêµ¬?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½?ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,7 +72,7 @@ public class UserInfoServlet extends HttpServlet {
 
 		// Store info to the request attribute before forwarding.
 		request.setAttribute("loginedUser", loginedUser);
-		request.setAttribute("pageUserId", pageUserId);
+		request.setAttribute("UserAccount",UserAccount);
 		request.setAttribute("notificationInfo", notificationInfo);
 
 		// If the user has logged in, then forward to the page

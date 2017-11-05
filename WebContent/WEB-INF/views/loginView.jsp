@@ -86,6 +86,6 @@
  
       <p style="color:blue;">User Name: tom, password: tom001 or jerry/jerry001</p>
  
-      <jsp:include page="_footer.jsp"></jsp:include>
+
    </body>
 </html>

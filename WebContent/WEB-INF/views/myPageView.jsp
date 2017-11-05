@@ -1,78 +1,129 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>User Info</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+	integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+	crossorigin="anonymous">
 
 <link rel="stylesheet"
-   href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
-   integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
-   crossorigin="anonymous">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+	integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+	crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
 <script>
-   $(document).ready(function() {
-   });
+	$(document).ready(function() {
+	});
 
-   function showUserInfo() {
-      $.get("${pageContext.request.contextPath}/userInfo", {
-         more : "Yes"
-      }, function(data) {
-         $('#additioalUserInfo').html(data);
-      });
-   }
+	function showUserInfo() {
+		$.get("${pageContext.request.contextPath}/userInfo", {
+			more : "Yes"
+		}, function(data) {
+			$('#additioalUserInfo').html(data);
+		});
+	}
 </script>
-
 
 </head>
 <body>
+	<jsp:include page="_header.jsp"></jsp:include>
 
-   <jsp:include page="_header.jsp"></jsp:include>
-   
+	<section class="jumbotron text-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4">
+					<img alt="Responsive image" src="image/mango.jpg"
+						class="img-thumbnail">
+				</div>
+				<div class="col-sm-8">
+					<h3>Hello: ${loginedUser.id}</h3>
 
+					User Name: <b>${loginedUser.name}</b> <br /> <br /> <a
+						href="javascript:void(0);" onclick="javascript:showUserInfo();">Show
+						More</a>
+					<div id="additioalUserInfo"></div>
+					 <a href="#" class="btn btn-primary">프로필 설정</a>
+					<a href="${pageContext.request.contextPath}/upLoadContents" class="btn btn-secondary">UpLoad</a>
+					
 
-   <section class="jumbotron text-center">
-      <div class="container">
-         <div class="row">
-            <div class="col-sm-4">
-               <img alt="Responsive image" src="image/signin.png"
-                  class="img-thumbnail">
-            </div>
-            <div class="col-sm-8">
-               <h3></h3>
+				</div>
+			</div>
 
-              <br/> 
-               <br/>
-               <div>${loginedUser.id}</div> 
-              <div>${loginedUser.name}</div>
-             
-
-               <p>
-                  <a href="#" class="btn btn-primary">프로필 설정</a>
-               </p>
-
-            </div>
-         </div>
-
-      </div>
-   </section>
+		</div>
+	</section>
 
 
-   <jsp:include page="_gallery.jsp"></jsp:include>
-   <jsp:include page="_footer.jsp"></jsp:include>
+	<div class="album text-muted">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="card">
+						<span style="font-weight: bold; color: black;"> VideoURL_ex
+						</span>
+						<iframe width="auto" height="280"
+							src="https://www.youtube.com/embed/r5e_Kfis508" frameborder="0"
+							allowfullscreen></iframe>
 
-   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"></script>
-   <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
-      integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
-      crossorigin="anonymous"></script>
-   <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
-      integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
-      crossorigin="anonymous"></script>
+					</div>
+					<p></p>
+				</div>
 
+				<div class="col-sm-4">
+					<div class="card">
+						<span style="font-weight: bold; color: black;"> URL_ex </span> <img
+							alt="Responsive image"
+							src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p160x160/16830719_997583997040323_2984424931716727767_n.jpg?oh=b34872f25dfa3d2f123becc64eaae59b&oe=5AA2B350" />
+						<!-- 						<span style="font-weight: bold; color: black;"> URL_ex </span> <img -->
+						<!-- 							alt="Responsive image" -->
+						<!-- 							src="https://img.wikinut.com/img/gycf69_-6rv_5fol/jpeg/0/Best-Friends-Img-Src%3AImage%3A-FreeDigitalPhotos.net.jpeg" -->
+						<!-- 							style="height: 280px; width: auto;" class="img-thumbnail"> -->
+					</div>
+					<p></p>
+				</div>
+				<div class="col-sm-4">
+					<div class="card">
+						<span style="font-weight: bold; color: black;"> Video_ex </span>
+						<video controls height="280" src="video/bandicam.mp4" width="auto"
+							controls="controls"></video>
+
+					</div>
+					<p></p>
+				</div>
+
+
+
+				<c:forEach items="${ContentInfo}" var="content">
+					<div class=" col-sm-4">
+						<div class="card">
+							<span style="font-weight: bold; color: black;">${content.name}</span>
+							<img alt="Responsive image" src="${content.contentImage}"
+								style="height: 280px; width: auto;" class="img-thumbnail">
+						</div>
+						<p></p>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+		integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+		integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+		crossorigin="anonymous"></script>
 </body>
 </html>

@@ -16,11 +16,9 @@
 <body>
 
 	<jsp:include page="_header.jsp"></jsp:include>
-	<jsp:include page="_menu.jsp"></jsp:include>
 	<jsp:include page="_gallery.jsp">
-		<jsp:param name="content" value="${content}"/>
+		<jsp:param name="content" value="${content}" />
 	</jsp:include>
-	<jsp:include page="_footer.jsp"></jsp:include>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
