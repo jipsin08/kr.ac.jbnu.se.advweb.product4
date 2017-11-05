@@ -22,7 +22,7 @@ public class CreateProductServlet extends HttpServlet {
 	public CreateProductServlet() {
 		super();
 	}
-
+ 
 	// Show product creation page.
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

@@ -94,7 +94,7 @@ public class UploadServlet extends HttpServlet {
 			
 			UserAccount userAccount = new UserAccount();
 			userAccount.setId(id);
-			userAccount.setPw(pw);
+			userAccount.setPassword(pw);
 			userAccount.setEmail(email);
 			userAccount.setName(name);
 		

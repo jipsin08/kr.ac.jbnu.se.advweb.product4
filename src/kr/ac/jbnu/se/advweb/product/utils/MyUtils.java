@@ -22,6 +22,7 @@ public class MyUtils {
 
 	// Get the Connection object has been stored in attribute of the request.
 	public static Connection getStoredConnection(ServletRequest request) {
+
 		Connection conn = (Connection) request.getAttribute(ATT_NAME_CONNECTION);
 		return conn;
 	}
@@ -30,6 +31,29 @@ public class MyUtils {
 	public static void storeLoginedUser(HttpSession session, UserAccount loginedUser) {
 		// On the JSP can access via ${loginedUser}
 		session.setAttribute("loginedUser", loginedUser);
+
+	}
+
+	// Store user info in Session.
+	public static void deleteLoginedUser(HttpSession session) {
+		// On the JSP can access via ${loginedUser}
+		session.removeAttribute("loginedUser");
+
+	}
+
+	// Store manager info in Session.
+	public static void storeLoginedManager(HttpSession session) {
+		// On the JSP can access via ${loginedUser}
+
+		session.setAttribute("loginedManager", "loginedManager");
+
+	}
+
+	// Store manager info in Session.
+	public static void deleteLoginedManager(HttpSession session) {
+		// On the JSP can access via ${loginedUser}
+		session.removeAttribute("loginedManager");
+
 	}
 
 	// Get the user information stored in the session.
@@ -41,10 +65,14 @@ public class MyUtils {
 	// Store info in Cookie
 	public static void storeUserCookie(HttpServletResponse response, UserAccount user) {
 		System.out.println("Store user cookie");
-		Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, user.getUserName());
+
+		Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, user.getId());
+
 		// 1 day (Converted to seconds)
 		cookieUserName.setMaxAge(24 * 60 * 60);
+
 		response.addCookie(cookieUserName);
+
 	}
 
 	public static String getUserNameInCookie(HttpServletRequest request) {

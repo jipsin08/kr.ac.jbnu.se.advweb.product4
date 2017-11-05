@@ -22,7 +22,7 @@ public class MySQLConnUtils {
 
 		// URL Connection for MySQL:
 		// Example:
-		// jdbc:mysql://localhost:3306/simplehr
+		// jdbc:mysql://localhost:3306/simpler
 		String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
 
 		Connection conn = DriverManager.getConnection(connectionURL, userName, password);

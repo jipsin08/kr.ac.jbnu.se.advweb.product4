@@ -68,6 +68,7 @@ public class JDBCFilter implements Filter {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 
@@ -84,7 +85,7 @@ public class JDBCFilter implements Filter {
 		// (For example: image, css, javascript,... )
 		//
 		if (this.needJDBC(req)) {
-
+		
 			System.out.println("Open Connection for: " + req.getServletPath());
 
 			Connection conn = null;
@@ -100,6 +101,7 @@ public class JDBCFilter implements Filter {
 				// Allow request to go forward
 				// (Go to the next filter or target)
 				chain.doFilter(request, response);
+				
 
 				// Invoke the commit() method to complete the transaction with the DB.
 				conn.commit();
