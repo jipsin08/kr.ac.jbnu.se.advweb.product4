@@ -31,7 +31,7 @@ public class DBUtils {
 			String content = rs.getString("content");
 			int likes = rs.getInt("likes");
 			String category = rs.getString("category");
-			String path = rs.getString("path");
+			String path = rs.getString("url");
 
 			contents.setContent_id(content_id);
 			contents.setUser_id(user_id);
@@ -359,7 +359,7 @@ public class DBUtils {
 
 	public static void insertContent(Connection conn, String userId, String content, String category, String path)
 			throws SQLException {
-		String sql = "Insert into content (user_id,content,category, path) values (?,?,?,?)";
+		String sql = "Insert into content (user_id,content,category, url) values (?,?,?,?)";
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
 
@@ -398,7 +398,7 @@ public class DBUtils {
 
 	public static List<ContentInfo> getPageInfo(Connection conn, String userId) throws SQLException {
 
-		String sql = "select u.imageUrl, u.name, u.id, c.path from user u, content c where u.id=c.user_id and u.id='"+userId+"'";
+		String sql = "select u.imageUrl, u.name, u.id, c.url from user u, content c where u.id=c.user_id and u.id='"+userId+"'";
 		List<ContentInfo> list = new ArrayList<ContentInfo>();
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
@@ -407,7 +407,7 @@ public class DBUtils {
 		while (rs.next()) {
 			ContentInfo ContentInfo = new ContentInfo();
 
-			ContentInfo.setContentImage(rs.getString("path"));
+			ContentInfo.setContentImage(rs.getString("url"));
 			ContentInfo.setName(rs.getString("name"));
 			ContentInfo.setProfileImage(rs.getString("imageUrl"));
 			ContentInfo.setUser_id(rs.getNString("id"));
