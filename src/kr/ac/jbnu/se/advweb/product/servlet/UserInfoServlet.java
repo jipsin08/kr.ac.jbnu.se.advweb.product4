@@ -37,18 +37,25 @@ public class UserInfoServlet extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		http://localhost:8080/product/userInfo?sender=whwlsvy12&receiver=a
+		
 		request.setAttribute("content", list);
 
 		String moreInfo = request.getParameter("more");
-
+		UserAccount UserAccount = null;
+		
 		HttpSession session = request.getSession();
 		String pageUserId = request.getParameter("receiver"); // ?���? �??��?�� ?��?��?��(?��??�?
 		// ?��?��?��)
 		notificationInfo notificationInfo = null;
 
+		
 		// Check User has logged on
 		UserAccount loginedUser = MyUtils.getLoginedUser(session);
 		try {
+			
+			UserAccount = DBUtils.getPageUser(conn,pageUserId);
 			notificationInfo = DBUtils.friendRequestCheck(conn, request.getParameter("sender"),
 					request.getParameter("receiver")); // ?��?�� 친구?��?�� ?���?�? ?��?��?���? ?��?��
 		} catch (SQLException e) {
@@ -65,7 +72,7 @@ public class UserInfoServlet extends HttpServlet {
 
 		// Store info to the request attribute before forwarding.
 		request.setAttribute("loginedUser", loginedUser);
-		request.setAttribute("pageUserId", pageUserId);
+		request.setAttribute("UserAccount",UserAccount);
 		request.setAttribute("notificationInfo", notificationInfo);
 
 		// If the user has logged in, then forward to the page

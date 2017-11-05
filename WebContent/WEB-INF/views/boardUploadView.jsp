@@ -14,7 +14,7 @@
 </head>
 <body>
 	<jsp:include page="_header.jsp"></jsp:include>
-	<jsp:include page="_menu.jsp"></jsp:include>
+	
 	<div class="container">
 		<header class="header clearfix">
 			<nav>
@@ -113,7 +113,7 @@
 		</footer>
 
 	</div>
-	<jsp:include page="_footer.jsp"></jsp:include>
+	
 
 <script>
 

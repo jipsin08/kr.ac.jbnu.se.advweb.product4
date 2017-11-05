@@ -160,7 +160,7 @@
 	function noti() {
 
 		$('#notificationInfo').html(notiView);
-        $('#notificationInfo').show();
+		$('#notificationInfo').show();
 
 	}
 
