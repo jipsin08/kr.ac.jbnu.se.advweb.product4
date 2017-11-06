@@ -85,13 +85,19 @@ public class DBUtils {
       
       if (rs.next()) {
 
-          UserAccount user = new UserAccount();
+         
+          String userId = rs.getString(id);
+          String password = rs.getString("pw");
+          String email = rs.getString("email");
+          String name = rs.getString("name");
+          
+         UserAccount user = new UserAccount();
 
-          user.setId(id);
-          user.setImageUrl("imageUrl");
-          user.setEmail("email");
-          user.setName("name");
-
+         user.setId(userId);
+         user.setPassword(password);
+         user.setEmail(email);
+         user.setName(name);
+         
           return user;
        }
 

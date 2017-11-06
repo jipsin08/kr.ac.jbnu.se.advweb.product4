@@ -49,21 +49,7 @@ public class ModifyUserInfoServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		boolean sizeError = false;
-//		UserAccount us = null;
-//		try {
-//			us = DBUtils.findUser(conn, userId);
-//			
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		System.out.println(us.getImageUrl());
-//		request.setAttribute("name", us.getName());
-//		request.setAttribute("imageurl", us.getImageUrl());
-//		request.setAttribute("email", us.getEmail());
-//		
-//		
+		
 		MultipartRequest multi = null;
 		
 		int fileMaxSize = 10*1024*1024;
