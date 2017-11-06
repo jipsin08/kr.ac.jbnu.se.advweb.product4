@@ -24,7 +24,7 @@ import kr.ac.jbnu.se.advweb.product.utils.MyUtils;
  */
 @WebServlet("/UploadBoardPost")
 public class UploadBoardPostServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -34,85 +34,83 @@ public class UploadBoardPostServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+   /**
+    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+    */
+   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      // TODO Auto-generated method stub
+      response.getWriter().append("Served at: ").append(request.getContextPath());
+   }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/**
-		 * Servlet implementation class UploadServlet
-		 **/
-		
-		   boolean sizeError = false;
-		    
-		   
-		      MultipartRequest multi = null;
-		      
-		      int fileMaxSize = 10*1024*1024;
-		      
-		      String savePath = request.getRealPath("/image").replace("\\\\", "/");
-		      
-		      try {
-		         multi = new MultipartRequest(request, savePath, fileMaxSize, "UTF-8",new DefaultFileRenamePolicy());
-		      }catch(Exception e) {
-		         
-		         if(e.getMessage().indexOf("exceeds limit")> -1) { //���ϻ����� �ʰ��� ���
-		            sizeError = true;
-		         }
-		      }
-		      if(sizeError) {
-		         response.setContentType("text/html; charset=UTF=8");
-		         response.setCharacterEncoding("UTF-8");
-		         response.getWriter().write("<script>alert(''); location.href=''; </script>");
-		         return ;
-		      }
-		      
-		      String flag = multi.getParameter("flag");
-		      
-		      Connection conn = (Connection) MyUtils.getStoredConnection(request);
-		      
-		      if(flag.equals("image")) {
-		      	 HttpSession session = request.getSession();
-		      	 
-		         String userId = MyUtils.getLoginedUser(session).getId(); //Merge �ϰ� ���ڿ� getUserId�� �ٲܵ� (�����̰��ٲ۰�����)
-		         String content = multi.getParameter("content");
-		         String category = multi.getParameter("tag");
-		         
-		         File file = multi.getFile("upfile"); //input name���� ÷������ �޾ƿ�
-		         
-		         if(file == null) {
-		            System.out.println("������ �������� �ʽ��ϴ�.");
-		         }
-		         else {
-		         String fileName = multi.getFilesystemName("upfile");
-		         String fileOriName = multi.getOriginalFileName("upfile");
-		         String filePath = "image/"+fileName;
-		         
-		         try {
-		           DBUtils.insertContent(conn, userId, content,category,filePath );
-		            
-		         } catch (SQLException e) {
-		            // TODO Auto-generated catch block
-		            e.printStackTrace();
-		         }
-		            }
-		      }
-		      
-		      
-		      RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
-		      dispatcher.forward(request, response);
-		      
-		      doGet(request, response);
-		   }
-
-
-	}
+   /**
+    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+    */
+   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      /**
+       * Servlet implementation class UploadServlet
+       **/
+      
+         boolean sizeError = false;
+          
+         
+            MultipartRequest multi = null;
+            
+            int fileMaxSize = 10*1024*1024;
+            
+            String savePath = request.getRealPath("/image").replace("\\\\", "/");
+            
+            try {
+               multi = new MultipartRequest(request, savePath, fileMaxSize, "UTF-8",new DefaultFileRenamePolicy());
+            }catch(Exception e) {
+               
+               if(e.getMessage().indexOf("exceeds limit")> -1) { //���ϻ����� �ʰ��� ���
+                  sizeError = true;
+               }
+            }
+            if(sizeError) {
+               response.setContentType("text/html; charset=UTF=8");
+               response.setCharacterEncoding("UTF-8");
+               response.getWriter().write("<script>alert(''); location.href=''; </script>");
+               return ;
+            }
+            
+            String flag = multi.getParameter("flag");
+            
+            Connection conn = (Connection) MyUtils.getStoredConnection(request);
+            
+            if(flag.equals("image")) {
+                HttpSession session = request.getSession();
+                
+               String userId = MyUtils.getLoginedUser(session).getId(); //Merge �ϰ� ���ڿ� getUserId�� �ٲܵ� (�����̰��ٲ۰�����)
+               String content = multi.getParameter("content");
+               String category = multi.getParameter("tag");
+               
+               File file = multi.getFile("upfile"); //input name���� ÷������ �޾ƿ�
+               
+               if(file == null) {
+                  System.out.println("������ �������� �ʽ��ϴ�.");
+               }
+               else {
+               String fileName = multi.getFilesystemName("upfile");
+               String fileOriName = multi.getOriginalFileName("upfile");
+               String filePath = "image/"+fileName;
+               
+               try {
+                 DBUtils.insertContent(conn, userId, content,category,filePath );
+                  
+               } catch (SQLException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+               }
+                  }
+            }
+            
+            System.out.println("!@@#!");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
+            dispatcher.forward(request, response);
+            
+            doGet(request, response);
+         }
 
 
+   }

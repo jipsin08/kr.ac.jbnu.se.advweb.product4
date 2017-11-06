@@ -15,7 +15,6 @@
 	$(document).ready(function() {
 		
 		$("#login_form_id").on('submit', function(e) {
-			
 			$.post('${pageContext.request.contextPath}/login2', {
 				userName : $("#name_id").val(),
 				password : $("#pw_id").val(),
@@ -72,7 +71,7 @@
 					name="remember" value="Y"> <label class="col-sm">아이디
 					저장</label> <input type="submit" class="btn btn-info" value="로그인" />
 			</div>
-			<!--회원가입 url삽입해야함-->
+
 			<input type="button" class="btn btn-info" value="회원가입"
 				onclick="location.href='../회원가입url삽입'" />
 		</form>

@@ -28,16 +28,16 @@ public class HomeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Connection conn = MyUtils.getStoredConnection(request);
-		
-    List<Content> list = null;
-    try {
-        list = DBUtils.queryContent(conn);
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    request.setAttribute("content", list);
-    
-    RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/homeView.jsp");
+
+		List<Content> list = null;
+		try {
+			list = DBUtils.queryContent(conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("content", list);
+
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/homeView.jsp");
 		dispatcher.forward(request, response);
 	}
 

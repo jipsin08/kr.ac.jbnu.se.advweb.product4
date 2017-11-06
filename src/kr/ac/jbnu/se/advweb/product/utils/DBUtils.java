@@ -10,6 +10,7 @@ import java.util.List;
 import kr.ac.jbnu.se.advweb.product.model.Content;
 import kr.ac.jbnu.se.advweb.product.model.ContentInfo;
 import kr.ac.jbnu.se.advweb.product.model.Product;
+import kr.ac.jbnu.se.advweb.product.model.Reply;
 import kr.ac.jbnu.se.advweb.product.model.UserAccount;
 import kr.ac.jbnu.se.advweb.product.model.UserManageInfo;
 import kr.ac.jbnu.se.advweb.product.model.UserSearch;
@@ -17,6 +18,49 @@ import kr.ac.jbnu.se.advweb.product.model.notificationInfo;
 
 public class DBUtils {
 
+	public static List<Reply> findReply(Connection conn, int contentID) throws SQLException{
+		String sql = "select reply from reply where content_id= ?";
+	
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setInt(1, contentID);
+		ResultSet rs = pstm.executeQuery();
+		List<Reply> list = new ArrayList<Reply>();
+		
+		while(rs.next()) {
+			Reply reply = new Reply();
+			String replies = rs.getString("reply");
+			reply.setReply(replies);
+			list.add(reply);
+		}
+		return list;
+	}
+	
+	public static Content findContent(Connection conn, int contentID) throws SQLException{
+		String sql = "select * from content where content_id= ?";
+		
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setInt(1, contentID);
+		ResultSet rs = pstm.executeQuery();
+		Content contents = new Content();
+		
+		if(rs.next()) {
+			int content_id = rs.getInt("content_id");
+			String user_id = rs.getString("user_id");
+			String content = rs.getString("content");
+			int likes = rs.getInt("likes");
+			String category = rs.getString("category");
+			String path = rs.getString("url");
+			
+			contents.setContent_id(content_id);
+			contents.setUser_id(user_id);
+			contents.setContent(content);
+			contents.setlikes(likes);
+			contents.setCategory(category);
+			contents.setPath(path);
+		}
+		return contents;
+	}
+	
 	public static List<Content> queryContent(Connection conn) throws SQLException {
 		String sql = "Select * From content";
 		List<Content> list = new ArrayList<Content>();
@@ -31,7 +75,7 @@ public class DBUtils {
 			String content = rs.getString("content");
 			int likes = rs.getInt("likes");
 			String category = rs.getString("category");
-			String path = rs.getString("path");
+			String path = rs.getString("url");
 
 			contents.setContent_id(content_id);
 			contents.setUser_id(user_id);
@@ -142,6 +186,16 @@ public class DBUtils {
 		pstm.executeUpdate();
 	}
 
+	public static void insertReply(Connection conn, Reply reply) throws SQLException{
+		String sql = "Insert into reply(content_id, reply) values(?,?)";
+		
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		
+		pstm.setInt(1, reply.getContentID());
+		pstm.setString(2, reply.getReply());
+		pstm.executeUpdate();
+	}
+	
 	public static void insertProduct(Connection conn, Product product) throws SQLException {
 		String sql = "Insert into Product(Code, Name,Price) values (?,?,?)";
 
@@ -357,16 +411,16 @@ public class DBUtils {
 		pstm.executeUpdate();
 	}
 
-	public static void insertContent(Connection conn, String userId, String content, String category, String path)
+	public static void insertContent(Connection conn, String userId, String content, String category, String url)
 			throws SQLException {
-		String sql = "Insert into content (user_id,content,category, path) values (?,?,?,?)";
+		String sql = "Insert into content(user_id, content, category, url) values(?, ?, ?, ?)";
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
 
 		pstm.setString(1, userId);
 		pstm.setString(2, content);
 		pstm.setString(3, category);
-		pstm.setString(4, path);
+		pstm.setString(4, url);
 
 		pstm.executeUpdate();
 	}
@@ -398,7 +452,7 @@ public class DBUtils {
 
 	public static List<ContentInfo> getPageInfo(Connection conn, String userId) throws SQLException {
 
-		String sql = "select u.imageUrl, u.name, u.id, c.path from user u, content c where u.id=c.user_id and u.id='"+userId+"'";
+		String sql = "select u.imageUrl, u.name, u.id, c.url from user u, content c where u.id=c.user_id and u.id='"+userId+"'";
 		List<ContentInfo> list = new ArrayList<ContentInfo>();
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
@@ -407,7 +461,7 @@ public class DBUtils {
 		while (rs.next()) {
 			ContentInfo ContentInfo = new ContentInfo();
 
-			ContentInfo.setContentImage(rs.getString("path"));
+			ContentInfo.setContentImage(rs.getString("url"));
 			ContentInfo.setName(rs.getString("name"));
 			ContentInfo.setProfileImage(rs.getString("imageUrl"));
 			ContentInfo.setUser_id(rs.getNString("id"));

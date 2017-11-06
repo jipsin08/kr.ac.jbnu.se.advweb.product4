@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -44,15 +44,14 @@
 					</div>
 					<p></p>
 				</div>
-
-
-
 				<c:forEach items="${content}" var="content">
 					<div class=" col-sm-4">
 						<div class="card">
 							<span style="font-weight: bold; color: black;">${content.user_id}</span>
-							<img alt="Responsive image" src="${content.path}"
+							<a href="${pageContext.request.contextPath}/showContent?content_id=${content.content_id}">
+								<img alt="Responsive image" src="${content.path}"
 								style="height: 280px; width: auto;" class="img-thumbnail">
+							</a>
 						</div>
 						<p></p>
 					</div>
@@ -61,4 +60,17 @@
 		</div>
 	</div>
 </body>
+
+
+<script>
+	$(document).ready(function() {
+		$("insert_reply").on('submit', function() {
+			$.post('${pageContext.request.contextPath}/showContent?contentId=',{
+				contentID : $("#contentID").val(),
+			});
+	});
+})
+</script>
+
+
 </html>

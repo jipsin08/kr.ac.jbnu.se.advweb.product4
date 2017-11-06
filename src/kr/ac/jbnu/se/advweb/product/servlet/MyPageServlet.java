@@ -47,7 +47,13 @@ public class MyPageServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		
+	    List<Content> list_content = null;
+	    try {
+	        list_content = DBUtils.queryContent(conn);
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    request.setAttribute("content", list_content);
 
 		// Not logged in
 		if (loginedUser == null) {
