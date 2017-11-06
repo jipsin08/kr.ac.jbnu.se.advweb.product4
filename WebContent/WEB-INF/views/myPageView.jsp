@@ -159,6 +159,7 @@
 				<c:forEach items="${ContentInfo}" var="content">
 					<div class=" col-sm-4">
 						<div class="card">
+
 							<img alt="Responsive image" src="${content.contentImage}"
 								style="height: 280px;" class="img-thumbnail">
 						</div>

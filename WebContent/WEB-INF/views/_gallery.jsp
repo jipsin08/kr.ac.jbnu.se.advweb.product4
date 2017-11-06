@@ -44,7 +44,7 @@
 
 
 				<c:forEach items="${content}" var="content">
-					<div class=" col-sm-4">
+					<div class=" col-sm-4"> 
 						<div class="card">
 							<span style="font-weight: bold; color: black;">${content.user_id}</span>
 							<img alt="Responsive image" src="${content.path}"

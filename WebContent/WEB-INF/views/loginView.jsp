@@ -38,8 +38,8 @@
 </head>
 
 <body>
+	<div style="margin: auto 200px">
 
-	<div>
 
 		<div class="container">
 			<div class="row">
@@ -66,22 +66,22 @@
 
 				<button class="btn btn-lg btn-primary btn-block" type="submit"
 					value="로그인">로그인</button>
-				<button class="btn btn-lg btn-primary btn-block" type="submit"
+				<button class="btn btn-lg btn-primary btn-block" style="width:100%";type="submit"
 					value="회원가입" onclick="location.href='../회원가입url삽입'">회원가입</button>
 
 			</form>
 
 		</div>
 
+
+
+		<script
+			src="h1ttps://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+		<script src="js/bootstrap.min.js"></script>
+		<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
 	</div>
-
-	<script
-		src="h1ttps://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
-	<script src="js/bootstrap.min.js"></script>
-	<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-
 </body>
 </html>

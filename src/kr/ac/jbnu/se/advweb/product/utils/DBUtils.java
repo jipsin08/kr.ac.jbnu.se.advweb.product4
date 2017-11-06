@@ -363,13 +363,15 @@ public class DBUtils {
 		ResultSet rs = pstm.executeQuery();
 
 		while (rs.next()) {
+
 			ContentInfo ContentInfo = new ContentInfo();
 
 			ContentInfo.setContentImage(rs.getString("url"));
 			ContentInfo.setName(rs.getString("name"));
 			ContentInfo.setProfileImage(rs.getString("imageUrl"));
-			ContentInfo.setUser_id(rs.getNString("id"));
+			ContentInfo.setUser_id(rs.getString("id"));
 
+			
 			list.add(ContentInfo);
 
 		}

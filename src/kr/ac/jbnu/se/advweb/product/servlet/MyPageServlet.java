@@ -36,23 +36,20 @@ public class MyPageServlet extends HttpServlet {
 		// Check User has logged on
 		List<ContentInfo> list = null;
 		String userId = request.getParameter("myId");
-		
-		
+
 		UserAccount loginedUser = MyUtils.getLoginedUser(session);
 		try {
 			list = DBUtils.getPageInfo(conn, userId);
-			 
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 
 		// Not logged in
 		if (loginedUser == null) {
 			// Redirect to login page.
-			response.sendRedirect(request.getContextPath() + "/login");
+			response.sendRedirect(request.getContextPath() + "/login2");
 			return;
 		}
 
@@ -68,7 +65,8 @@ public class MyPageServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 
