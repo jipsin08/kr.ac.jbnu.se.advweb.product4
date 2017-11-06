@@ -9,6 +9,7 @@ import java.util.List;
 
 import kr.ac.jbnu.se.advweb.product.model.Content;
 import kr.ac.jbnu.se.advweb.product.model.ContentInfo;
+import kr.ac.jbnu.se.advweb.product.model.Reply;
 import kr.ac.jbnu.se.advweb.product.model.UserAccount;
 import kr.ac.jbnu.se.advweb.product.model.UserManageInfo;
 import kr.ac.jbnu.se.advweb.product.model.UserSearch;
@@ -143,6 +144,12 @@ public class DBUtils {
 		String sql = "Update user set pw =?, imageurl=? ,email=?, name =? where id='" + id + "'";
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		System.out.println("$$$$$$$$$$$$$$$");
+		pstm.setString(1, pw);
+		pstm.setString(2, imageurl);
+		pstm.setString(3, email);
+		pstm.setString(4, name);
 
 		pstm.executeUpdate();
 
@@ -371,12 +378,64 @@ public class DBUtils {
 			ContentInfo.setProfileImage(rs.getString("imageUrl"));
 			ContentInfo.setUser_id(rs.getString("id"));
 
-			
 			list.add(ContentInfo);
 
 		}
 
 		return list;
+	}
+
+	public static List<Reply> findReply(Connection conn, int contentID) throws SQLException {
+		String sql = "select reply from reply where content_id= ?";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setInt(1, contentID);
+		ResultSet rs = pstm.executeQuery();
+		List<Reply> list = new ArrayList<Reply>();
+
+		while (rs.next()) {
+			Reply reply = new Reply();
+			String replies = rs.getString("reply");
+			reply.setReply(replies);
+			list.add(reply);
+		}
+		return list;
+	}
+
+	public static Content findContent(Connection conn, int contentID) throws SQLException {
+		String sql = "select * from content where content_id= ?";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setInt(1, contentID);
+		ResultSet rs = pstm.executeQuery();
+		Content contents = new Content();
+
+		if (rs.next()) {
+			int content_id = rs.getInt("content_id");
+			String user_id = rs.getString("user_id");
+			String content = rs.getString("content");
+			int likes = rs.getInt("likes");
+			String category = rs.getString("category");
+			String path = rs.getString("url");
+
+			contents.setContent_id(content_id);
+			contents.setUser_id(user_id);
+			contents.setContent(content);
+			contents.setlikes(likes);
+			contents.setCategory(category);
+			contents.setPath(path);
+		}
+		return contents;
+	}
+
+	public static void insertReply(Connection conn, Reply reply) throws SQLException {
+		String sql = "Insert into reply(content_id, reply) values(?,?)";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		pstm.setInt(1, reply.getContentID());
+		pstm.setString(2, reply.getReply());
+		pstm.executeUpdate();
 	}
 
 }

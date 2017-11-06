@@ -15,18 +15,7 @@
 
 <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 
-<script>
-	$(document).ready(function() {
-	});
 
-	function showUserInfo() {
-		$.get("${pageContext.request.contextPath}/userInfo", {
-			more : "Yes"
-		}, function(data) {
-			$('#additioalUserInfo').html(data);
-		});
-	}
-</script>
 
 </head>
 <body>
@@ -42,11 +31,10 @@
 				<div class="col-sm-8">
 					<h3>Hello: ${loginedUser.id}</h3>
 
-					User Name: <b>${loginedUser.name}</b> <br /> <br /> <a
-						href="javascript:void(0);" onclick="javascript:showUserInfo();">Show
-						More</a>
+					User Name: <b>${loginedUser.name}</b> <br /> <br />
 					<div id="additioalUserInfo"></div>
-					<a href="#" class="btn btn-primary">프로필 설정</a> <a href="#"
+					<a href="${pageContext.request.contextPath}/modifyuserinfo"
+						class="btn btn-primary">프로필 설정</a> <a href="#"
 						class="btn btn-secondary" data-toggle="modal"
 						data-target="#exampleModal">UpLoad</a>
 

@@ -45,8 +45,7 @@
 
 						<a href="${pageContext.request.contextPath}/userManage"> <span
 							style="margin: 0 10px;"><img src="image/userManage.png"
-								style="width: 25px; height: 25px; margin-top: 4px">
-						</span></a>
+								style="width: 25px; height: 25px; margin-top: 4px"> </span></a>
 
 						<a
 							href="${pageContext.request.contextPath}/userLogout?type=manager">
@@ -175,7 +174,8 @@
 											},
 											function(data) {
 
-												console.log('beforeCount :'+beforeCount)
+												console.log('beforeCount :'
+														+ beforeCount)
 												if (data > beforeCount) {
 													console
 															.log('@@@@@@@@@@@@@@@@@@@@@');

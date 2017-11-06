@@ -61,7 +61,7 @@
 
 					<a
 						href="${pageContext.request.contextPath}/UserReport?userId=${UserAccount.id}"
-						class="btn btn-secondary">신고하기</a>  >
+						class="btn btn-secondary">신고하기</a>  
 
 				</div>
 			</div>
