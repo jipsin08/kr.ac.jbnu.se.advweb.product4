@@ -26,7 +26,7 @@
 				<div class="col-sm-4">
 					<div class="card">
 						<span style="font-weight: bold; color: black;"> URL_ex </span> <img
-							alt="Responsive image"
+							alt="Responsive image" style="height: 280px; width: auto;"
 							src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p160x160/16830719_997583997040323_2984424931716727767_n.jpg?oh=b34872f25dfa3d2f123becc64eaae59b&oe=5AA2B350" />
 						</div>
 					<p></p>
