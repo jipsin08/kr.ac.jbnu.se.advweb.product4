@@ -20,7 +20,7 @@
 	<c:choose>
 
 		<c:when test="${list.type=='friend'}">
-			<div style="font-size: 5px">
+			<div>
 				${list.sender}님이 친구신청을 하였습니다
 
 				<c:if test="${list.friend_check==1}">
@@ -38,7 +38,7 @@
 		</c:when>
 
 
-		<c:when test="${list.type=='newcontent'}">
+		<c:when test="${list.type=='newContent'}">
 			<div>${list.sender}님이새로운글을올렸습니다.</div>
 		</c:when>
 	</c:choose>

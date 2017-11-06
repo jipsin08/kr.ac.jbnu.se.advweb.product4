@@ -73,6 +73,16 @@ public class DBUtils {
 		return null;
 	}
 
+	public static void userReport(Connection conn, String userId) throws SQLException {
+
+		String sql = "update user set black_check=1 where id='" + userId + "'";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		pstm.executeUpdate();
+
+	}
+
 	public static UserAccount findUser(Connection conn, String id) throws SQLException {
 
 		String sql = "Select a.id, a.pw from user a " + " where a.id = ? ";
@@ -93,7 +103,6 @@ public class DBUtils {
 		return null;
 	}
 
-	
 	public static boolean idCheck(Connection conn, String id) throws SQLException {
 
 		String sql = "select * from user where id='" + id + "'";
@@ -239,6 +248,24 @@ public class DBUtils {
 
 	}
 
+	public static int notificationCheck(Connection conn, String userId) throws SQLException {
+
+		String sql = "select count(*) as count from noti where receiver='" + userId + "'";
+		int count = 0;
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		ResultSet rs = pstm.executeQuery();
+
+		while (rs.next()) {
+
+			count = rs.getInt("count");
+
+		}
+
+		return count;
+
+	}
+
 	public static void friendRequest(Connection conn, String sender, String receiver) throws SQLException {
 
 		String sql = "Insert into noti(sender,receiver,type,friend_check) values (?,?,?,1)";
@@ -318,7 +345,7 @@ public class DBUtils {
 			user.setEmail(rs.getString("email"));
 			user.setImageUrl(rs.getString("imageUrl"));
 			user.setName(rs.getString("name"));
-			System.out.println("!!!!!!!!!!!!" + rs.getString("name"));
+
 			return user;
 		}
 
@@ -328,7 +355,8 @@ public class DBUtils {
 
 	public static List<ContentInfo> getPageInfo(Connection conn, String userId) throws SQLException {
 
-		String sql = "select u.imageUrl, u.name, u.id, c.url from user u, content c where u.id=c.user_id and u.id='"+userId+"'";
+		String sql = "select u.imageUrl, u.name, u.id, c.url from user u, content c where u.id=c.user_id and u.id='"
+				+ userId + "'";
 		List<ContentInfo> list = new ArrayList<ContentInfo>();
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
@@ -341,7 +369,6 @@ public class DBUtils {
 			ContentInfo.setName(rs.getString("name"));
 			ContentInfo.setProfileImage(rs.getString("imageUrl"));
 			ContentInfo.setUser_id(rs.getNString("id"));
-			;
 
 			list.add(ContentInfo);
 

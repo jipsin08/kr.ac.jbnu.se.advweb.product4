@@ -3,7 +3,6 @@ package kr.ac.jbnu.se.advweb.product.servlet;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -12,52 +11,41 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import kr.ac.jbnu.se.advweb.product.model.UserSearch;
+import kr.ac.jbnu.se.advweb.product.model.Content;
+import kr.ac.jbnu.se.advweb.product.model.UserAccount;
 import kr.ac.jbnu.se.advweb.product.model.notificationInfo;
 import kr.ac.jbnu.se.advweb.product.utils.DBUtils;
 import kr.ac.jbnu.se.advweb.product.utils.MyUtils;
 
-@WebServlet("/FriendRequestConfirm")
-public class FriendRequestComfirm extends HttpServlet {
+@WebServlet(urlPatterns = { "/UserReport" })
+public class UserReportServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public FriendRequestComfirm() {
+	public UserReportServlet() {
 		super();
-
 	}
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		Connection conn = MyUtils.getStoredConnection(request);
 
-		String sender = request.getParameter("sender");
-		String receiver = request.getParameter("receiver");
-           
-		System.out.println(sender+"  "+receiver);
-		
-		notificationInfo notificationInfo = null;
+		String userId = request.getParameter("userId");
 		try {
-
-			DBUtils.friendRequestConfirm(conn, sender, receiver);
-			notificationInfo = DBUtils.friendRequestCheck(conn, sender, receiver);
+			DBUtils.userReport(conn, userId);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		response.sendRedirect(request.getContextPath() + "/home");
 
-		request.setAttribute("notificationInfo", notificationInfo);
-		request.setAttribute("pageUserId", receiver);
-
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/homeView.jsp");
-
-		dispatcher.forward(request, response);
 	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

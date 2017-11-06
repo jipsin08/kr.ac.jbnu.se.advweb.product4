@@ -2,17 +2,20 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<link
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
-	crossorigin="anonymous">
+<!-- <link -->
+<!-- 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" -->
+<!-- 	rel="stylesheet" -->
+<!-- 	integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" -->
+<!-- 	crossorigin="anonymous"> -->
 
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
-	integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
-	crossorigin="anonymous"></script>
+<!-- <script -->
+<!-- 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" -->
+<!-- 	integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" -->
+<!-- 	crossorigin="anonymous"></script> -->
 
+
+
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 
 <div
 	style="width: 100%; height: 70px; display: table; border-bottom: 1px solid #E6E6E6;">
@@ -35,21 +38,13 @@
 				</div>
 			</div>
 
-
-
-
-
 			<div class="col-md-3">
 
-
-
 				<c:choose>
-
-
 					<c:when test="${not empty loginedManager}">
 
 						<a href="${pageContext.request.contextPath}/userManage"> <span
-							style="margin: 0 10px;"> <img src="image/userManage.png"
+							style="margin: 0 10px;"><img src="image/userManage.png"
 								style="width: 25px; height: 25px; margin-top: 4px">
 						</span></a>
 
@@ -74,8 +69,8 @@
 						</span>
 						</a>
 						<a href="javascript:void(0);" onclick="javascript:noti();"><span
-							style="margin: 0 10px;"> <img src="image/alarmlogo.png"
-								style="width: 25px; height: 25px; margin-top: 4px">
+							style="margin: 0 10px;"> <img src="image/alarm.png"
+								id="alarm" style="width: 25px; height: 25px; margin-top: 4px">
 						</span></a>
 
 						<a href="${pageContext.request.contextPath}/userLogout?type=user">
@@ -86,12 +81,13 @@
 						</a>
 
 					</c:when>
+
 				</c:choose>
+
 
 				<div id="notificationInfo"
 					style="width: 100%; background-color: #F2F2F2; display: none; OVERFLOW-Y: auto; height: 150px; position: absolute; z-index: 2; border-radius: 3%">
 				</div>
-
 			</div>
 			<c:if test="${not empty loginedUser}">
 				<div class="col-md-3">${loginedUser.id}님이로그인했습니다.</div>
@@ -111,32 +107,35 @@
 
 
 <script>
-	document.querySelector('#search').addEventListener('input', function(e) {
+	(function($) {
+		document
+				.querySelector('#search')
+				.addEventListener(
+						'input',
+						function(e) {
 
-		var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-		if (check.test($('#search').val())) {
-			// 지현이 view 완성되면 여기 추가
-		}
+							var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+							if (check.test($('#search').val())) {
+								// 지현이 view 완성되면 여기 추가
 
-		// 		$.get("${pageContext.request.contextPath}/UserSearchServlet?test="+"${loginedUser.id}", {
-		$.get("${pageContext.request.contextPath}/UserSearchServlet", {
-			userId : $('#search').val()
-		}, function(data) {
-			$('#userSearch').html(data);
-			$('#userSearch').show();
+							}
 
-		});
-	});
+							$
+									.get(
+											"${pageContext.request.contextPath}/UserSearchServlet",
+											{
+												userId : $('#search').val()
+											}, function(data) {
+												$('#userSearch').html(data);
+												$('#userSearch').show();
 
-	$('body').click(function(evt) {
-		if (!$(evt.target).is('#userSearch')) {
-			$('#userSearch').hide();
-		}
-	});
+											});
+						});
+	})(jQuery);
 
 	var notiView;
 
-	(function() {
+	(function($) {
 
 		poll = function() {
 
@@ -154,8 +153,58 @@
 			});
 		}
 
-		, 2000)
-	})();
+		, 500)
+	})(jQuery);
+
+	var beforeCount;
+
+	(function($) {
+
+				poll = function() {
+
+				},
+
+				pollInterval = setInterval(
+						function() {
+
+							$
+									.get(
+											"${pageContext.request.contextPath}/notiChangedCheck?userId=${loginedUser.id}",
+											{
+
+											},
+											function(data) {
+
+												console.log('beforeCount :'+beforeCount)
+												if (data > beforeCount) {
+													console
+															.log('@@@@@@@@@@@@@@@@@@@@@');
+													$('#alarm')
+															.attr("src",
+																	"image/alarmRing.png");
+													console
+															.log('data가 beforeCount보다 값이 크네요');
+												}
+
+												beforeCount = data;
+
+											});
+						}
+
+						, 10000)
+	})(jQuery);
+
+	$('#notificationInfo').on("click", function() {
+		$('#notificationInfo').hide();
+	});
+
+	$('#alarm').on("click", function() {
+		$('#alarm').attr("src", "image/alarm.png");
+	});
+
+	$('#userSearch').on("click", function() {
+		$('#userSearch').hide();
+	});
 
 	function noti() {
 
@@ -163,10 +212,4 @@
 		$('#notificationInfo').show();
 
 	}
-
-	$('body').click(function(evt) {
-		if (!$(evt.target).is('#notificationInfo')) {
-			$('#notificationInfo').hide();
-		}
-	});
 </script>
