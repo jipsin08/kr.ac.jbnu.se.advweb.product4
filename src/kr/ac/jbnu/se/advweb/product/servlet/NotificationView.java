@@ -32,7 +32,6 @@ public class NotificationView extends HttpServlet {
 		Connection conn = MyUtils.getStoredConnection(request);
 		List list = null;
 		String userId = request.getParameter("userId"); // 알람의 주체 나의 알람이 뜬다~
-		System.out.println(userId);
 
 		try {
 
