@@ -1,5 +1,6 @@
 package kr.ac.jbnu.se.advweb.product.servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import kr.ac.jbnu.se.advweb.product.model.Content;
 import kr.ac.jbnu.se.advweb.product.model.ContentInfo;
@@ -69,7 +73,9 @@ public class MyPageServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		
+		doGet(request,response);
+		
 	}
 
 }

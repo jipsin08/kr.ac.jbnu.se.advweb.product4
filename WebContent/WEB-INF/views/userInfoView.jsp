@@ -8,26 +8,11 @@
 <meta charset="UTF-8">
 <title>User Info</title>
 
-<style>
-#imagePreview > img {
-  height: 200px;
-  width: 200px;
-}
-</style>
-
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
 	integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
 	crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-
-<script>
-	
-	$('#modify').click(function(){
-		
-		
-	});
-</script>
 
 </head>
 <body>
@@ -68,122 +53,12 @@
 					
 					<a href="#" class="btn btn-secondary">Report</a> 
 					<a href="#" class="btn btn-secondary">test 친구맺기 승인</a> 
-					<a href="${pageContext.request.contextPath}/upLoadContents" class="btn btn-secondary">UpLoad</a>
-					<button class="btn btn-primary" data-toggle="modal" data-target="#userInfoModify" id = "modify" >modify</button> 
-
+					
 				</div>
 			</div>
 
 		</div>
 	</section>
-	
-	<!-- Modal -->
-<div class="modal fade" id="userInfoModify" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="userInfoModify">회원 정보 수정</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      
-        <form class="form-horizontal" method="POST" id="modifyform"action="${pageContext.request.contextPath}/modifyuserinfo" enctype="multipart/form-data" >
-        <div>
-            <label  for="name">이름</label>
-          <div>
-            <input class="form-control" id="name" type="text" name="name" placeholder="이름">
-          </div>
-        </div>
-        <div>
-          <label for="password">비밀번호</label>
-        <div>
-          <input class="form-control" id="password" type="password" name="password" placeholder="비밀번호">
-        <p style="color:gray; font-size: 14px;">숫자, 특수문자 포함 8자 이상</p>
-        </div>
-        </div>
-          <div>
-              <label for="passwordCheck">비밀번호 확인</label>
-             <div>
-              <input class="form-control" id="passwordCheck" type="password"  placeholder="비밀번호 확인">
-                <div class="help-block" id=pwmsg></div>
-             </div>
-             <span>
-                 <button type="button" class="btn btn-primary btn-sm " id=passwordChkBtn>비밀번호 확인</button>
-             </span>
-          </div>
-          <div class="form-group">
-          <label for="email">이메일</label>
-        <div>
-          <input class="form-control" id="email" type="email" name="email" placeholder="이메일">
-        </div>
-        </div>
-        
-        <div >
-        	<label for="profileImage">프로필 사진 수정</label>
-        	 <div>
-  				<input class="form-control" id="profileImage" type="file" accept="image/*" name="file" capture="camera" onchange="getPrivew(this,$('#imagePreview'))" ><br/>
-  			<br/>
-  			  <div id="imagePreview" style="width:100%;max-width:100%;display:none;"></div>
-		</div>
-		</div>
-        </form>
-          <hr>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-        <button type="button" class="btn btn-primary" id="modifyBtn">수정</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-
-function getPrivew(html, $target) {
-    if (html.files && html.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $target.css('display', '');
-            $target.html('<img src="' + e.target.result + '" border="0" alt="" />');
-        }
-        reader.readAsDataURL(html.files[0]);
-    }
-}
-
-$('#passwordChkBtn').click(function(){
-	  if($('#password').val()==0){
-		 alert('비밀번호를 입력해주세요.');
-		 return false;
-	  }
-	  else if($('#passwordCheck').val() == 0){
-		 alert('비밀번호 확인을 입력해주세요');
-	  }
-	  else  if($('#password').val() != $('#passwordCheck').val()){
-		$('#pwmsg').html('<p style="color:red ;font-size:14px">비밀번호가 일치하지 않습니다.</p>');
-	 }else{
-		$('#pwmsg').html('<p style="color:blue; font-size:14px">비밀번호가 일치합니다.</p>');
-	 }	
-});
-
-$('#modifyBtn').click(function(){
-	
-	var input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = "flag";
-    input.value = "modifyInfo";
-    
-    
-    $('#modifyform').append(input);
-    $('#modifyform').submit();
-    alert('정상적으로 회원정보 수정이 완료되었습니다.');
-	
-	
-});
-
-</script>
 	
 
 	<jsp:include page="_gallery.jsp"></jsp:include>

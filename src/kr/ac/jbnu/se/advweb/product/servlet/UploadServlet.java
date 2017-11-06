@@ -69,7 +69,7 @@ public class UploadServlet extends HttpServlet {
 		}catch(Exception e) {
 			
 			if(e.getMessage().indexOf("exceeds limit")> -1) { //파일사이즈 초과된 경우
-				boolean sizeError = true;
+				sizeError = true;
 			}
 		}
 		if(sizeError) {

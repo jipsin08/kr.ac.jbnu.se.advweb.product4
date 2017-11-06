@@ -97,28 +97,5 @@ public class UserInfoServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		
-		HttpSession session = request.getSession();
-		String userId = MyUtils.getLoginedUser(session).getId();
-		UserAccount us = null;
-		
-		Connection conn = MyUtils.getStoredConnection(request);
-		
-		try {
-			us = DBUtils.findUser(conn, userId);
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		System.out.println(us.getImageUrl());
-		request.setAttribute("name", us.getName());
-		request.setAttribute("imageurl", us.getImageUrl());
-		request.setAttribute("email", us.getEmail());
-		
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
-		dispatcher.forward(request, response);
-		
 	}
-
 }

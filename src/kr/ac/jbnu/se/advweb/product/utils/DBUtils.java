@@ -17,416 +17,419 @@ import kr.ac.jbnu.se.advweb.product.model.notificationInfo;
 
 public class DBUtils {
 
-	public static List<Content> queryContent(Connection conn) throws SQLException {
-		String sql = "Select * From content";
-		List<Content> list = new ArrayList<Content>();
-
-		PreparedStatement pstm = conn.prepareStatement(sql);
-		ResultSet rs = pstm.executeQuery();
-
-		while (rs.next()) {
-			Content contents = new Content();
-			int content_id = rs.getInt("content_id");
-			String user_id = rs.getString("user_id");
-			String content = rs.getString("content");
-			int likes = rs.getInt("likes");
-			String category = rs.getString("category");
-			String path = rs.getString("path");
-
-			contents.setContent_id(content_id);
-			contents.setUser_id(user_id);
-			contents.setContent(content);
-			contents.setlikes(likes);
-			contents.setCategory(category);
-			contents.setPath(path);
-
-			list.add(contents);
-		}
-
-		return list;
-	}
-
-	public static UserAccount findUser(Connection conn, String id, String password) throws SQLException {
-		// String sql = "Select a.id, a.pw from user a where a.id= ? and a.pw=
-		// ?";
-		String sql = "select * from user where id=? and pw=?";
-
-		PreparedStatement pstm = conn.prepareStatement(sql);
-		pstm.setString(1, id);
-		pstm.setString(2, password);
-		ResultSet rs = pstm.executeQuery();
-
-		if (rs.next()) {
-
-			UserAccount user = new UserAccount();
-
-			user.setId(id);
-			user.setPassword(password);
-
-			user.setImageUrl(rs.getString("imageUrl"));
-			user.setEmail(rs.getString("email"));
-			user.setName(rs.getString("name"));
-			user.setBlack_check(rs.getInt("black_check"));
-
-			return user;
-		}
-
-		return null;
-	}
-
-	public static UserAccount findUser(Connection conn, String id) throws SQLException {
-
-		String sql = "Select * from user where id = ?";
+   public static List<Content> queryContent(Connection conn) throws SQLException {
+      String sql = "Select * From content";
+      List<Content> list = new ArrayList<Content>();
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
-		pstm.setString(1, id);
+      PreparedStatement pstm = conn.prepareStatement(sql);
+      ResultSet rs = pstm.executeQuery();
 
-		ResultSet rs = pstm.executeQuery();
-
-		if (rs.next()) {
-			String password = rs.getString("password");
-			String imageurl = rs.getString("imageurl");
-			String email = rs.getString("email");
-			String name = rs.getString("name");
-			int black_check = rs.getInt("black_check");
-			
-			UserAccount user = new UserAccount();
-			user.setId(id);
-			user.setPassword(password);
-			user.setImageUrl(imageurl);
-			user.setEmail(email);
-			user.setName(name);
-			user.setBlack_check(black_check);
+      while (rs.next()) {
+         Content contents = new Content();
+         int content_id = rs.getInt("content_id");
+         String user_id = rs.getString("user_id");
+         String content = rs.getString("content");
+         int likes = rs.getInt("likes");
+         String category = rs.getString("category");
+         String path = rs.getString("url");
 
-			return user;
-		}
-		return null;
-	}
-
-	public static List<Product> queryProduct(Connection conn) throws SQLException {
-		String sql = "Select a.Code, a.Name, a.Price from Product a ";
+         contents.setContent_id(content_id);
+         contents.setUser_id(user_id);
+         contents.setContent(content);
+         contents.setlikes(likes);
+         contents.setCategory(category);
+         contents.setPath(path);
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
+         list.add(contents);
+      }
 
-		ResultSet rs = pstm.executeQuery();
-		List<Product> list = new ArrayList<Product>();
-		while (rs.next()) {
-			String code = rs.getString("Code");
-			String name = rs.getString("Name");
-			float price = rs.getFloat("Price");
-			Product product = new Product();
-			product.setCode(code);
-			product.setName(name);
-			product.setPrice(price);
-			list.add(product);
-		}
-		return list;
-	}
+      return list;
+   }
 
-	public static Product findProduct(Connection conn, String code) throws SQLException {
-		String sql = "Select a.Code, a.Name, a.Price from Product a where a.Code=?";
+   public static UserAccount findUser(Connection conn, String id, String password) throws SQLException {
+      // String sql = "Select a.id, a.pw from user a where a.id= ? and a.pw=
+      // ?";
+      String sql = "select * from user where id=? and pw=?";
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
-		pstm.setString(1, code);
+      PreparedStatement pstm = conn.prepareStatement(sql);
+      pstm.setString(1, id);
+      pstm.setString(2, password);
+      ResultSet rs = pstm.executeQuery();
 
-		ResultSet rs = pstm.executeQuery();
+      if (rs.next()) {
 
-		while (rs.next()) {
-			String name = rs.getString("Name");
-			float price = rs.getFloat("Price");
-			Product product = new Product(code, name, price);
-			return product;
-		}
-		return null;
-	}
+         UserAccount user = new UserAccount();
 
-	public static void updateProduct(Connection conn, Product product) throws SQLException {
-		String sql = "Update Product set Name =?, Price=? where Code=? ";
+         user.setId(id);
+         user.setPassword(password);
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
+         user.setImageUrl(rs.getString("imageUrl"));
+         user.setEmail(rs.getString("email"));
+         user.setName(rs.getString("name"));
+         user.setBlack_check(rs.getInt("black_check"));
 
-		pstm.setString(1, product.getName());
-		pstm.setFloat(2, product.getPrice());
-		pstm.setString(3, product.getCode());
-		pstm.executeUpdate();
-	}
+         return user;
+      }
 
-	public static void insertProduct(Connection conn, Product product) throws SQLException {
-		String sql = "Insert into Product(Code, Name,Price) values (?,?,?)";
+      return null;
+   }
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
+   public static UserAccount findUser(Connection conn, String id) throws SQLException {
 
-		pstm.setString(1, product.getCode());
-		pstm.setString(2, product.getName());
-		pstm.setFloat(3, product.getPrice());
+      String sql = "Select * from user where id= ? ";
 
-		pstm.executeUpdate();
-	}
+      PreparedStatement pstm = conn.prepareStatement(sql);
+      pstm.setString(1, id);
 
-	public static void deleteProduct(Connection conn, String code) throws SQLException {
-		String sql = "Delete From Product where Code= ?";
+      ResultSet rs = pstm.executeQuery();
+      
+      if (rs.next()) {
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
+          UserAccount user = new UserAccount();
 
-		pstm.setString(1, code);
+          user.setId(id);
+          user.setImageUrl("imageUrl");
+          user.setEmail("email");
+          user.setName("name");
 
-		pstm.executeUpdate();
-	}
+          return user;
+       }
 
-	public static boolean idCheck(Connection conn, String id) throws SQLException {
 
-		String sql = "select * from user where id='" + id + "'";
+      return null;
+   }
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
-		ResultSet rs = pstm.executeQuery();
+   public static List<Product> queryProduct(Connection conn) throws SQLException {
+      String sql = "Select a.Code, a.Name, a.Price from Product a ";
 
-		rs.last();
-		int size = rs.getRow();
-		rs.beforeFirst();
+      PreparedStatement pstm = conn.prepareStatement(sql);
 
-		if (size > 0)
-			return false;
-		else
-			return true;
-	}
+      ResultSet rs = pstm.executeQuery();
+      List<Product> list = new ArrayList<Product>();
+      while (rs.next()) {
+         String code = rs.getString("Code");
+         String name = rs.getString("Name");
+         float price = rs.getFloat("Price");
+         Product product = new Product();
+         product.setCode(code);
+         product.setName(name);
+         product.setPrice(price);
+         list.add(product);
+      }
+      return list;
+   }
 
-	public static void insertForm(Connection conn, String id, String pw, String imageurl, String email, String name)
-			throws SQLException {
+   public static Product findProduct(Connection conn, String code) throws SQLException {
+      String sql = "Select a.Code, a.Name, a.Price from Product a where a.Code=?";
 
-		String sql = "Insert into user (id,pw,imageurl,email,name) values(?,?,?,?,?)";
+      PreparedStatement pstm = conn.prepareStatement(sql);
+      pstm.setString(1, code);
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
+      ResultSet rs = pstm.executeQuery();
 
-		pstm.setString(1, id);
-		pstm.setString(2, pw);
-		pstm.setString(3, imageurl);
-		pstm.setString(4, email);
-		pstm.setString(5, name);
+      while (rs.next()) {
+         String name = rs.getString("Name");
+         float price = rs.getFloat("Price");
+         Product product = new Product(code, name, price);
+         return product;
+      }
+      return null;
+   }
 
-		pstm.executeUpdate();
+   public static void updateProduct(Connection conn, Product product) throws SQLException {
+      String sql = "Update Product set Name =?, Price=? where Code=? ";
 
-	}
+      PreparedStatement pstm = conn.prepareStatement(sql);
 
-	public static void UpdateUserInfo(Connection conn, String userId, String pw, String imageurl, String email, String name)
-			throws SQLException {
+      pstm.setString(1, product.getName());
+      pstm.setFloat(2, product.getPrice());
+      pstm.setString(3, product.getCode());
+      pstm.executeUpdate();
+   }
 
-		String sql = "Update user set pw =?, imageurl=? ,email=?, name =? where id='" + userId + "'";
+   public static void insertProduct(Connection conn, Product product) throws SQLException {
+      String sql = "Insert into Product(Code, Name,Price) values (?,?,?)";
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
+      PreparedStatement pstm = conn.prepareStatement(sql);
 
-		pstm.executeUpdate();
+      pstm.setString(1, product.getCode());
+      pstm.setString(2, product.getName());
+      pstm.setFloat(3, product.getPrice());
 
-	}
+      pstm.executeUpdate();
+   }
 
-	public static List userSearch(Connection conn, String userId) throws SQLException {
-		String sql = "select * from user where id like'%" + userId + "%'";
+   public static void deleteProduct(Connection conn, String code) throws SQLException {
+      String sql = "Delete From Product where Code= ?";
 
-		String a = "select * from user where id='" + userId + "'";
-		PreparedStatement pstm = conn.prepareStatement(sql);
+      PreparedStatement pstm = conn.prepareStatement(sql);
 
-		ResultSet rs = pstm.executeQuery();
-		List<UserSearch> list = new ArrayList<UserSearch>();
+      pstm.setString(1, code);
 
-		while (rs.next()) {
-			String id = rs.getString("id");
-			String imageUrl = rs.getString("imageurl");
+      pstm.executeUpdate();
+   }
 
-			UserSearch userSearch = new UserSearch(id, imageUrl);
+   public static boolean idCheck(Connection conn, String id) throws SQLException {
 
-			list.add(userSearch);
+      String sql = "select * from user where id='" + id + "'";
 
-		}
-		return list;
-	}
+      PreparedStatement pstm = conn.prepareStatement(sql);
+      ResultSet rs = pstm.executeQuery();
 
-	public static List getNotification(Connection conn, String userId) throws SQLException {
+      rs.last();
+      int size = rs.getRow();
+      rs.beforeFirst();
 
-		String sql = "select * from noti where receiver='" + userId + "'";
+      if (size > 0)
+         return false;
+      else
+         return true;
+   }
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
+   public static void insertForm(Connection conn, String id, String pw, String imageurl, String email, String name)
+         throws SQLException {
 
-		ResultSet rs = pstm.executeQuery();
-		List<notificationInfo> list = new ArrayList<notificationInfo>();
+      String sql = "Insert into user (id,pw,imageurl,email,name) values(?,?,?,?,?)";
 
-		while (rs.next()) {
+      PreparedStatement pstm = conn.prepareStatement(sql);
 
-			notificationInfo notificationInfo = new notificationInfo();
+      pstm.setString(1, id);
+      pstm.setString(2, pw);
+      pstm.setString(3, imageurl);
+      pstm.setString(4, email);
+      pstm.setString(5, name);
 
-			notificationInfo.setContent_id(rs.getInt("content_id"));
-			notificationInfo.setFriend_check(rs.getInt("friend_check"));
-			notificationInfo.setReceiver(rs.getString("receiver"));
-			notificationInfo.setSender(rs.getString("sender"));
-			notificationInfo.setType(rs.getString("type"));
+      pstm.executeUpdate();
 
-			list.add(notificationInfo);
+   }
 
-		}
-		return list;
-	}
+   public static void UpdateUserInfo(Connection conn, String id, String pw, String imageurl, String email, String name)
+         throws SQLException {
 
-	public static List getReportedUser(Connection conn) throws SQLException {
+      String sql = "Update user set pw =?, imageurl=? ,email=?, name =? where id='" + id + "'";
 
-		String sql = "select * from user where black_check='1'";
+      PreparedStatement pstm = conn.prepareStatement(sql);
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
+      pstm.setString(1, pw);
+      pstm.setString(2, imageurl);
+      pstm.setString(3, email);
+      pstm.setString(4, name);
 
-		ResultSet rs = pstm.executeQuery();
-		List<UserManageInfo> list = new ArrayList<UserManageInfo>();
+      
+      pstm.executeUpdate();
 
-		while (rs.next()) {
+   }
 
-			String id = rs.getString("id");
-			String imageUrl = rs.getString("imageUrl");
-			int flag = rs.getInt("black_check");
-			UserManageInfo blockedUser = new UserManageInfo(id, imageUrl, flag);
+   public static List userSearch(Connection conn, String userId) throws SQLException {
+      String sql = "select * from user where id like'%" + userId + "%'";
 
-			list.add(blockedUser);
+      String a = "select * from user where id='" + userId + "'";
+      PreparedStatement pstm = conn.prepareStatement(sql);
 
-		}
-		return list;
-	}
+      ResultSet rs = pstm.executeQuery();
+      List<UserSearch> list = new ArrayList<UserSearch>();
 
-	public static List getBlockeduser(Connection conn) throws SQLException {
+      while (rs.next()) {
+         String id = rs.getString("id");
+         String imageUrl = rs.getString("imageurl");
 
-		String sql = "select * from user where black_check='2'";
+         UserSearch userSearch = new UserSearch(id, imageUrl);
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
+         list.add(userSearch);
 
-		ResultSet rs = pstm.executeQuery();
-		List<UserManageInfo> list = new ArrayList<UserManageInfo>();
+      }
+      return list;
+   }
 
-		while (rs.next()) {
+   public static List getNotification(Connection conn, String userId) throws SQLException {
 
-			String id = rs.getString("id");
-			String imageUrl = rs.getString("imageUrl");
-			int flag = rs.getInt("black_check");
-			UserManageInfo blockedUser = new UserManageInfo(id, imageUrl, flag);
+      String sql = "select * from noti where receiver='" + userId + "'";
 
-			list.add(blockedUser);
+      PreparedStatement pstm = conn.prepareStatement(sql);
 
-		}
-		return list;
-	}
+      ResultSet rs = pstm.executeQuery();
+      List<notificationInfo> list = new ArrayList<notificationInfo>();
 
-	public static void userBlockedConfirm(Connection conn, String userId) throws SQLException {
+      while (rs.next()) {
 
-		String sql = "update user set black_check=2 where id='" + userId + "'";
+         notificationInfo notificationInfo = new notificationInfo();
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
+         notificationInfo.setContent_id(rs.getInt("content_id"));
+         notificationInfo.setFriend_check(rs.getInt("friend_check"));
+         notificationInfo.setReceiver(rs.getString("receiver"));
+         notificationInfo.setSender(rs.getString("sender"));
+         notificationInfo.setType(rs.getString("type"));
 
-		pstm.executeUpdate();
+         list.add(notificationInfo);
 
-	}
+      }
+      return list;
+   }
 
-	public static void friendRequest(Connection conn, String sender, String receiver) throws SQLException {
+   public static List getReportedUser(Connection conn) throws SQLException {
 
-		String sql = "Insert into noti(sender,receiver,type,friend_check) values (?,?,?,1)";
+      String sql = "select * from user where black_check='1'";
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
+      PreparedStatement pstm = conn.prepareStatement(sql);
 
-		pstm.setString(1, sender);
-		pstm.setString(2, receiver);
-		pstm.setString(3, "friend");
+      ResultSet rs = pstm.executeQuery();
+      List<UserManageInfo> list = new ArrayList<UserManageInfo>();
 
-		pstm.executeUpdate();
+      while (rs.next()) {
 
-	}
+         String id = rs.getString("id");
+         String imageUrl = rs.getString("imageUrl");
+         int flag = rs.getInt("black_check");
+         UserManageInfo blockedUser = new UserManageInfo(id, imageUrl, flag);
 
-	public static notificationInfo friendRequestCheck(Connection conn, String sender, String receiver)
-			throws SQLException {
+         list.add(blockedUser);
 
-		String sql = "select sender,receiver,friend_check from noti where sender=? and receiver=?";
+      }
+      return list;
+   }
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
-		pstm.setString(1, sender);
-		pstm.setString(2, receiver);
-		ResultSet rs = pstm.executeQuery();
+   public static List getBlockeduser(Connection conn) throws SQLException {
 
-		if (rs.next()) {
+      String sql = "select * from user where black_check='2'";
 
-			notificationInfo notificationInfo = new notificationInfo();
+      PreparedStatement pstm = conn.prepareStatement(sql);
 
-			notificationInfo.setFriend_check(rs.getInt("friend_check"));
-			notificationInfo.setSender(rs.getString("sender"));
-			notificationInfo.setReceiver(rs.getString("receiver"));
+      ResultSet rs = pstm.executeQuery();
+      List<UserManageInfo> list = new ArrayList<UserManageInfo>();
 
-			return notificationInfo;
-		}
+      while (rs.next()) {
 
-		return null;
-	}
+         String id = rs.getString("id");
+         String imageUrl = rs.getString("imageUrl");
+         int flag = rs.getInt("black_check");
+         UserManageInfo blockedUser = new UserManageInfo(id, imageUrl, flag);
 
-	public static void friendRequestConfirm(Connection conn, String sender, String receiver) throws SQLException {
-		String sql = "Update noti set friend_check=2 where sender=? and receiver=? ";
+         list.add(blockedUser);
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
+      }
+      return list;
+   }
 
-		pstm.setString(1, sender);
-		pstm.setString(2, receiver);
-		pstm.executeUpdate();
-	}
+   public static void userBlockedConfirm(Connection conn, String userId) throws SQLException {
 
-	public static void insertContent(Connection conn, String userId, String content, String category, String path)
-			throws SQLException {
-		String sql = "Insert into content (user_id,content,category, path) values (?,?,?,?)";
+      String sql = "update user set black_check=2 where id='" + userId + "'";
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
+      PreparedStatement pstm = conn.prepareStatement(sql);
 
-		pstm.setString(1, userId);
-		pstm.setString(2, content);
-		pstm.setString(3, category);
-		pstm.setString(4, path);
+      pstm.executeUpdate();
 
-		pstm.executeUpdate();
-	}
+   }
 
-	public static UserAccount getPageUser(Connection conn, String pageUserId) throws SQLException {
-		// ?";
-		String sql = "select * from user where id='" + pageUserId + "'";
+   public static void friendRequest(Connection conn, String sender, String receiver) throws SQLException {
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
-		ResultSet rs = pstm.executeQuery();
+      String sql = "Insert into noti(sender,receiver,type,friend_check) values (?,?,?,1)";
 
-		if (rs.next()) {
+      PreparedStatement pstm = conn.prepareStatement(sql);
 
-			UserAccount user = new UserAccount();
+      pstm.setString(1, sender);
+      pstm.setString(2, receiver);
+      pstm.setString(3, "friend");
 
-			user.setId(rs.getString("id"));
-			user.setPassword(rs.getString("pw"));
-			user.setBlack_check(rs.getInt("black_check"));
-			user.setEmail(rs.getString("email"));
-			user.setImageUrl(rs.getString("imageUrl"));
-			user.setName(rs.getString("name"));
-			System.out.println("!!!!!!!!!!!!" + rs.getString("name"));
-			return user;
-		}
+      pstm.executeUpdate();
 
-		return null;
+   }
 
-	}
+   public static notificationInfo friendRequestCheck(Connection conn, String sender, String receiver)
+         throws SQLException {
 
-	public static List<ContentInfo> getPageInfo(Connection conn, String userId) throws SQLException {
+      String sql = "select sender,receiver,friend_check from noti where sender=? and receiver=?";
 
-		String sql = "select u.imageUrl, u.name, u.id, c.path from user u, content c where u.id=c.user_id and u.id='"+userId+"'";
-		List<ContentInfo> list = new ArrayList<ContentInfo>();
+      PreparedStatement pstm = conn.prepareStatement(sql);
+      pstm.setString(1, sender);
+      pstm.setString(2, receiver);
+      ResultSet rs = pstm.executeQuery();
 
-		PreparedStatement pstm = conn.prepareStatement(sql);
-		ResultSet rs = pstm.executeQuery();
+      if (rs.next()) {
 
-		while (rs.next()) {
-			ContentInfo ContentInfo = new ContentInfo();
+         notificationInfo notificationInfo = new notificationInfo();
 
-			ContentInfo.setContentImage(rs.getString("path"));
-			ContentInfo.setName(rs.getString("name"));
-			ContentInfo.setProfileImage(rs.getString("imageUrl"));
-			ContentInfo.setUser_id(rs.getNString("id"));
-			;
+         notificationInfo.setFriend_check(rs.getInt("friend_check"));
+         notificationInfo.setSender(rs.getString("sender"));
+         notificationInfo.setReceiver(rs.getString("receiver"));
 
-			list.add(ContentInfo);
+         return notificationInfo;
+      }
 
-		}
+      return null;
+   }
 
-		return list;
-	}
+   public static void friendRequestConfirm(Connection conn, String sender, String receiver) throws SQLException {
+      String sql = "Update noti set friend_check=2 where sender=? and receiver=? ";
+
+      PreparedStatement pstm = conn.prepareStatement(sql);
+
+      pstm.setString(1, sender);
+      pstm.setString(2, receiver);
+      pstm.executeUpdate();
+   }
+
+   public static void insertContent(Connection conn, String userId, String content, String category, String path)
+         throws SQLException {
+      String sql = "Insert into content (user_id,content,category, url) values (?,?,?,?)";
+
+      System.out.println("%%%%");
+      PreparedStatement pstm = conn.prepareStatement(sql);
+
+      pstm.setString(1, userId);
+      pstm.setString(2, content);
+      pstm.setString(3, category);
+      pstm.setString(4, path);
+
+      pstm.executeUpdate();
+   }
+
+   public static UserAccount getPageUser(Connection conn, String pageUserId) throws SQLException {
+      // ?";
+      String sql = "select * from user where id='" + pageUserId + "'";
+
+      PreparedStatement pstm = conn.prepareStatement(sql);
+      ResultSet rs = pstm.executeQuery();
+
+      if (rs.next()) {
+
+         UserAccount user = new UserAccount();
+
+         user.setId(rs.getString("id"));
+         user.setPassword(rs.getString("pw"));
+         user.setBlack_check(rs.getInt("black_check"));
+         user.setEmail(rs.getString("email"));
+         user.setImageUrl(rs.getString("imageUrl"));
+         user.setName(rs.getString("name"));
+         System.out.println("!!!!!!!!!!!!" + rs.getString("name"));
+         return user;
+      }
+
+      return null;
+
+   }
+
+   public static List<ContentInfo> getPageInfo(Connection conn, String userId) throws SQLException {
+
+      String sql = "select u.imageUrl, u.name, u.id, c.url from user u, content c where u.id=c.user_id and u.id='"+userId+"'";
+      List<ContentInfo> list = new ArrayList<ContentInfo>();
+
+      PreparedStatement pstm = conn.prepareStatement(sql);
+      ResultSet rs = pstm.executeQuery();
+
+      while (rs.next()) {
+         ContentInfo ContentInfo = new ContentInfo();
+
+         ContentInfo.setContentImage(rs.getString("url"));
+         ContentInfo.setName(rs.getString("name"));
+         ContentInfo.setProfileImage(rs.getString("imageUrl"));
+         ContentInfo.setUser_id(rs.getNString("id"));
+         System.out.println("##############");
+
+         list.add(ContentInfo);
+
+      }
+
+      return list;
+   }
 
 }

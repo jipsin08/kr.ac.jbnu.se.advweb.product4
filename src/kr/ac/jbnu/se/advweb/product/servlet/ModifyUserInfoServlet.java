@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -39,14 +40,30 @@ public class ModifyUserInfoServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/modifyUserInfoView.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		boolean sizeError = false;
+//		UserAccount us = null;
+//		try {
+//			us = DBUtils.findUser(conn, userId);
+//			
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		System.out.println(us.getImageUrl());
+//		request.setAttribute("name", us.getName());
+//		request.setAttribute("imageurl", us.getImageUrl());
+//		request.setAttribute("email", us.getEmail());
+//		
+//		
 		MultipartRequest multi = null;
 		
 		int fileMaxSize = 10*1024*1024;
@@ -58,10 +75,11 @@ public class ModifyUserInfoServlet extends HttpServlet {
 		}catch(Exception e) {
 			
 			if(e.getMessage().indexOf("exceeds limit")> -1) { //파일사이즈 초과된 경우
-				boolean sizeError = true;
+				sizeError = true;
 			}
 		}
-		if(true) {
+		
+		if(sizeError) {
 			response.setContentType("text/html; charset=UTF=8");
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write("<script>alert(''); location.href=''; </script>");
@@ -69,35 +87,45 @@ public class ModifyUserInfoServlet extends HttpServlet {
 		}
 		
 		String flag = multi.getParameter("flag");
-		
 		Connection conn = MyUtils.getStoredConnection(request);
 		
 		if(flag.equals("modifyInfo")) {
 			
-			String name = multi.getParameter("upname");
-			String pw = multi.getParameter("uppassword");
-			String email = multi.getParameter("upemail");
+			String name = multi.getParameter("name");
+			String pw = multi.getParameter("password");
+			String email = multi.getParameter("email");
 			
-			File file = multi.getFile("upfile"); //input name으로 첨부파일 받아옴
+			File file = multi.getFile("file"); //input name으로 첨부파일 받아옴
 			
 			if(file == null) {
 				System.out.println("파일이 존재하지 않습니다.");
 			}
 			else {
-			String fileName = multi.getFilesystemName("upfile");
-			String fileOriName = multi.getOriginalFileName("upfile");
-			String filePath = "image/"+fileName;
+				
+				
+				String fileName = multi.getFilesystemName("file");
+				String fileOriName = multi.getOriginalFileName("file");
+				String filePath = "image/"+fileName;
 			
-			System.out.println(filePath);
+				System.out.println(filePath);
 		
+			try {
+				HttpSession session = request.getSession();
+				String userId = MyUtils.getLoginedUser(session).getId();
+				
+				DBUtils.UpdateUserInfo(conn, userId, pw, filePath, email, name );
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			}
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/myPage");
 		dispatcher.forward(request, response);
 		
-		doGet(request, response);
-	}
+		
+	
 	}
 	}
 
