@@ -13,10 +13,6 @@
 	integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
 	crossorigin="anonymous">
 
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
-	integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
-	crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 
 <script>
@@ -50,62 +46,121 @@
 						href="javascript:void(0);" onclick="javascript:showUserInfo();">Show
 						More</a>
 					<div id="additioalUserInfo"></div>
-					 <a href="#" class="btn btn-primary">프로필 설정</a>
-					<a href="${pageContext.request.contextPath}/upLoadContents" class="btn btn-secondary">UpLoad</a>
-					
+					<a href="#" class="btn btn-primary">프로필 설정</a> <a href="#"
+						class="btn btn-secondary" data-toggle="modal"
+						data-target="#exampleModal">UpLoad</a>
 
+					<!-- Modal -->
+					<div class="modal fade" id="exampleModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Image
+										UpLoad</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<form name="form" id="form"
+										action="${pageContext.request.contextPath}/UploadBoardPost"
+										method="post" enctype="multipart/form-data" autocomplete="off">
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="filebox">
+													<input type="file" name="upfile" id="upfile"
+														accept="image/*" capture="camera"
+														onchange="getThumbnailPrivew(this,$('#cma_image'))" /> <br />
+													<br />
+													<div id="cma_image"
+														style="width: 100%; max-width: 100%; display: none;"></div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<span class="input-group-addon">Tag</span> <select
+														name="tag" class="form-control" id="sel1">
+														<option value="" disabled selected>Tag 선택</option>
+														<option value="Food">Food</option>
+														<option value="People">People</option>
+														<option value="Fashion">Fashion</option>
+														<option value="Background">Background</option>
+														<option value="Daily">Daily</option>
+													</select>
+												</div>
+
+
+											</div>
+										</div>
+										<div class="form-group-row">
+											<div class="col-lg">
+												<textarea style="overflow: scroll x-hidden; width: 400px;"
+													name="content" id="context_id"></textarea>
+											</div>
+										</div>
+									</form>
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary" id=save>Save</button>
+									<script
+										src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+										integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+										crossorigin="anonymous"></script>
+									</script>
+									<script>
+										function getThumbnailPrivew(html,
+												$target) {
+											if (html.files && html.files[0]) {
+												var reader = new FileReader();
+												reader.onload = function(e) {
+													$target.css('display', '');
+													$target
+															.html('<img style="height: 500px; width: auto;" src="' + e.target.result + '" border="0" alt="" />');
+												}
+												reader
+														.readAsDataURL(html.files[0]);
+											}
+										}
+
+										$('#save')
+												.click(
+														function() {
+															var input = document
+																	.createElement('input');
+															input.type = 'hidden';
+															input.name = "flag";
+															input.value = "image";
+
+															$('#form').append(
+																	input);
+															$('#form').submit();
+														});
+									</script>
+
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
+
 			</div>
 
 		</div>
 	</section>
-
-
 	<div class="album text-muted">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-4">
-					<div class="card">
-						<span style="font-weight: bold; color: black;"> VideoURL_ex
-						</span>
-						<iframe width="auto" height="280"
-							src="https://www.youtube.com/embed/r5e_Kfis508" frameborder="0"
-							allowfullscreen></iframe>
-
-					</div>
-					<p></p>
-				</div>
-
-				<div class="col-sm-4">
-					<div class="card">
-						<span style="font-weight: bold; color: black;"> URL_ex </span> <img
-							alt="Responsive image"
-							src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p160x160/16830719_997583997040323_2984424931716727767_n.jpg?oh=b34872f25dfa3d2f123becc64eaae59b&oe=5AA2B350" />
-						<!-- 						<span style="font-weight: bold; color: black;"> URL_ex </span> <img -->
-						<!-- 							alt="Responsive image" -->
-						<!-- 							src="https://img.wikinut.com/img/gycf69_-6rv_5fol/jpeg/0/Best-Friends-Img-Src%3AImage%3A-FreeDigitalPhotos.net.jpeg" -->
-						<!-- 							style="height: 280px; width: auto;" class="img-thumbnail"> -->
-					</div>
-					<p></p>
-				</div>
-				<div class="col-sm-4">
-					<div class="card">
-						<span style="font-weight: bold; color: black;"> Video_ex </span>
-						<video controls height="280" src="video/bandicam.mp4" width="auto"
-							controls="controls"></video>
-
-					</div>
-					<p></p>
-				</div>
-
-
-
 				<c:forEach items="${ContentInfo}" var="content">
 					<div class=" col-sm-4">
 						<div class="card">
-							<span style="font-weight: bold; color: black;">${content.name}</span>
 							<img alt="Responsive image" src="${content.contentImage}"
-								style="height: 280px; width: auto;" class="img-thumbnail">
+								style="height: 280px;" class="img-thumbnail">
 						</div>
 						<p></p>
 					</div>
@@ -117,10 +172,7 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
-		integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
-		crossorigin="anonymous"></script>
+
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
 		integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"

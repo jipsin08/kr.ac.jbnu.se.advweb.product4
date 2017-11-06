@@ -16,18 +16,18 @@ import kr.ac.jbnu.se.advweb.product.model.UserAccount;
 import kr.ac.jbnu.se.advweb.product.utils.DBUtils;
 import kr.ac.jbnu.se.advweb.product.utils.MyUtils;
 
-@WebServlet(urlPatterns = { "/login2" })
+@WebServlet(urlPatterns = { "/login" })
 
-public class LoginServlet2 extends HttpServlet {
+public class LoginServlet extends HttpServlet {
    private static final long serialVersionUID = 1L;
 
-	public LoginServlet2() {
+	public LoginServlet() {
 		super();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView2.jsp");
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -90,7 +90,7 @@ public class LoginServlet2 extends HttpServlet {
 
 			// Forward to /WEB-INF/views/login.jsp
 			RequestDispatcher dispatcher //
-					= this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView2.jsp");
+					= this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
 
 			dispatcher.forward(request, response);
 
