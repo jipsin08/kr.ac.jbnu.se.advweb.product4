@@ -78,7 +78,6 @@
 								style="width: 30px; height: 25px; margin-top: 4px">
 						</span>
 						</a>
-
 					</c:when>
 
 				</c:choose>
@@ -127,7 +126,6 @@
 											}, function(data) {
 												$('#userSearch').html(data);
 												$('#userSearch').show();
-
 											});
 						});
 	})(jQuery);
@@ -165,25 +163,20 @@
 
 				pollInterval = setInterval(
 						function() {
-
 							$
 									.get(
 											"${pageContext.request.contextPath}/notiChangedCheck?userId=${loginedUser.id}",
-											{
-
-											},
+											{},
 											function(data) {
-
 												console.log('beforeCount :'
 														+ beforeCount)
 												if (data > beforeCount) {
 													console
-															.log('@@@@@@@@@@@@@@@@@@@@@');
+
 													$('#alarm')
 															.attr("src",
 																	"image/alarmRing.png");
-													console
-															.log('data가 beforeCount보다 값이 크네요');
+
 												}
 
 												beforeCount = data;
@@ -191,7 +184,7 @@
 											});
 						}
 
-						, 10000)
+						, 500)
 	})(jQuery);
 
 	$('#notificationInfo').on("click", function() {
